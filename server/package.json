@@ -2,6 +2,7 @@
 	"name": "server",
 	"version": "1.0.0",
 	"description": "SCUAA Live Scoring",
+	"homepage": "http://bisubalilihan.com/adminscuaa/",
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon src/index.js"
