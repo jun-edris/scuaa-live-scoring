@@ -1,6 +1,7 @@
 {
 	"name": "server",
 	"version": "1.0.0",
+	"homepage":"http://bisubalilihan.com/adminscuaa/",
 	"description": "SCUAA Live Scoring",
 	"main": "index.js",
 	"scripts": {
