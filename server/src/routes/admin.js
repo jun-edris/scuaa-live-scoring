@@ -70,6 +70,12 @@ router.delete('/admin/delete-all-users', checkJwt, requireAdmin, deletealluser);
 
 // END USERS
 
+
+
+
+
+
+
 // START TEAMS
 
 // GET

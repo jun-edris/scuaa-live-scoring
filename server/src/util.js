@@ -71,7 +71,7 @@ let upload = multer({ storage, fileFilter });
 
 function hasDuplicatesJerseyNumber(jersey) {
 	return (
-		new Set(jersey.map((item) => item.jerseyNumber)).size !== jersey.length
+		new Set(jersey.map((item) => item.jerseyNumber))?.size !== jersey?.length
 	);
 }
 
