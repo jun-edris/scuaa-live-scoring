@@ -28,6 +28,7 @@ const headCells = [
 const UsersTable = ({ records }) => {
 	const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
 	const [openDeletePopup, setOpenDeletePopup] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [failed, setFailed] = useState(false);
 	const [success, setSuccess] = useState();
@@ -69,16 +70,20 @@ const UsersTable = ({ records }) => {
 	};
 
 	const onDelete = async (id) => {
-		if (authContext.authState.userInfo._id === user) {
+		if (authContext.authState.userInfo._id === id) {
 			setError('You are deleting your own account');
 		} else {
 			try {
+				setLoading(true);
 				const { data } = await fetchContext.authAxios.delete(
 					`${authContext.authState.userInfo.role}/delete-user/${id}`
 				);
 
 				setSuccess(data.message);
 				setError('');
+				setTimeout(() => {
+					setLoading(false);
+				}, 400);
 			} catch (err) {
 				const { data } = err.response;
 				setError(data.message);
@@ -160,6 +165,7 @@ const UsersTable = ({ records }) => {
 				setOpen={setOpen}
 				setFailed={setFailed}
 				failed={failed}
+				loading={loading}
 			/>
 		</>
 	);

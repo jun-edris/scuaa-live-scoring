@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import SnackbarSuccess from './SnackbarSuccess';
 import SnackbarError from './SnackbarError';
+import { Formik, Form } from 'formik';
 const PopupDelete = ({
 	title,
 	onDelete,
@@ -59,43 +60,63 @@ const PopupDelete = ({
 										{title}
 									</Typography>
 								</Grid>
-								<Grid item>
-									<Grid
-										container
-										direction="row"
-										justify="space-between"
-										alignItems="center"
-									>
-										<Button
-											color="primary"
-											variant="contained"
-											size="small"
-											onClick={handleClose}
-										>
-											Disagree
-										</Button>
-										<Button
-											color="primary"
-											variant="contained"
-											size="small"
-											onClick={() =>
-												data
-													? onDelete(data._id)
-													: onDeleteAll()
-													? onDeleteAll()
-													: null
-											}
-											disabled={loading === true}
-											startIcon={
-												loading === true ? (
-													<CircularProgress size={20} color="primary" />
-												) : null
-											}
-										>
-											Agree
-										</Button>
-									</Grid>
-								</Grid>
+								<Formik
+									initialValues={{ data: data }}
+									onSubmit={(values) => {
+										if (values) {
+											onDelete(values.data._id);
+										} else {
+											onDeleteAll();
+										}
+									}}
+								>
+									{() => {
+										return (
+											<Form autoComplete="off" noValidate>
+												<Grid item>
+													<Grid
+														container
+														direction="row"
+														justify="space-between"
+														alignItems="center"
+													>
+														<Button
+															color="primary"
+															variant="contained"
+															size="small"
+															type="button"
+															onClick={handleClose}
+														>
+															Disagree
+														</Button>
+														<input type="text" name="data" hidden />
+														<Button
+															color="primary"
+															variant="contained"
+															size="small"
+															type="submit"
+															// onClick={() =>
+															// 	data
+															// 		? onDelete(data._id)
+															// 		: onDeleteAll()
+															// 		? onDeleteAll()
+															// 		: null
+															// }
+															disabled={loading}
+															startIcon={
+																loading ? (
+																	<CircularProgress size={20} color="primary" />
+																) : null
+															}
+														>
+															Agree
+														</Button>
+													</Grid>
+												</Grid>
+											</Form>
+										);
+									}}
+								</Formik>
 							</Grid>
 						</Grid>
 					</Grid>

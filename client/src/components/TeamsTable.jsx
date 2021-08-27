@@ -32,6 +32,7 @@ const TeamsTable = ({ records }) => {
 	const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
 	const [openDeletePopup, setOpenDeletePopup] = useState(false);
 	const [openAddImageAlert, setOpenAddImageAlert] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [failed, setFailed] = useState(false);
 	const [success, setSuccess] = useState();
@@ -73,11 +74,15 @@ const TeamsTable = ({ records }) => {
 
 	const onDelete = async (id) => {
 		try {
+			setLoading(true);
 			const { data } = await fetchContext.authAxios.delete(
 				`/${authContext.authState.userInfo.role}/delete-team/${id}`
 			);
 			setSuccess(data.message);
 			setError('');
+			setTimeout(() => {
+				setLoading(false);
+			}, 400);
 		} catch (err) {
 			const { data } = err.response;
 			console.log(data.message);
@@ -164,7 +169,7 @@ const TeamsTable = ({ records }) => {
 			<PopupDelete
 				openDeletePopup={openDeletePopup}
 				handleClose={handleClose}
-				title="Delete User?"
+				title="Delete Team?"
 				onDelete={onDelete}
 				data={team}
 				success={success}
@@ -173,6 +178,7 @@ const TeamsTable = ({ records }) => {
 				setOpen={setOpen}
 				setFailed={setFailed}
 				failed={failed}
+				loading={loading}
 			/>
 			<PopupImageUpload
 				openAddImageAlert={openAddImageAlert}

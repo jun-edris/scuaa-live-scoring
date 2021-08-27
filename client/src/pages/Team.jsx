@@ -1,3 +1,5 @@
+// TODO : Change the table into tabs since there are only 3 games
+
 import { Grid, Paper } from '@material-ui/core';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import CustomButton from '../components/common/CustomButton';
@@ -69,7 +71,7 @@ const Team = () => {
 						: team
 				)
 			);
-			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+			fetchContext.setRefreshKey((fetchContext.refreshKey =+ 1));
 		});
 
 		teamChannel.bind('updated', (updatedTeam) => {
@@ -85,21 +87,21 @@ const Team = () => {
 						: team
 				)
 			);
-			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+			fetchContext.setRefreshKey((fetchContext.refreshKey =+ 1));
 		});
 
 		teamChannel.bind('deleted', (deletedTeam) => {
 			setRecords(
 				records.filter((team, index) => team._id !== deletedTeam[index]._id)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey + 1);
+			fetchContext.setRefreshKey(fetchContext.refreshKey =+ 1);
 		});
 
 		teamChannel.bind('deleted-all', (deletedTeams) => {
 			setRecords(
 				records.filter((team, index) => team._id !== deletedTeams[index]._id)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey + 1);
+			fetchContext.setRefreshKey(fetchContext.refreshKey =+ 1);
 		});
 		return () => {
 			teamChannel.unbind_all();
@@ -139,11 +141,7 @@ const Team = () => {
 				</Grid>
 				<Grid item>
 					<Paper>
-						<TeamsTable
-							records={
-								fetchContext.teams.length === 0 ? records : fetchContext.teams
-							}
-						/>
+						<TeamsTable records={records} />
 					</Paper>
 				</Grid>
 			</Grid>

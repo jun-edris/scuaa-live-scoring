@@ -27,42 +27,44 @@ const TeamForm = ({ game, team }) => {
 	const authContext = useContext(AuthContext);
 
 	const teamSubmit = async (values, resetForm) => {
-		setLoading(true);
-		await fetchContext.authAxios
-			.post(`${authContext.authState.userInfo.role}/team`, values)
-			.then(({ data }) => {
-				setSuccessMessage(data.message);
-				setErrorMessage('');
-				setOpen(true);
-				setTimeout(() => {
-					setLoading(false);
-					resetForm(true);
-				}, 400);
-			})
-			.catch((error) => {
+		try {
+			setLoading(true);
+			const { data } = await fetchContext.authAxios.post(
+				`${authContext.authState.userInfo.role}/team`,
+				values
+			);
+			setSuccessMessage(data.message);
+			setErrorMessage('');
+			setOpen(true);
+			setTimeout(() => {
 				setLoading(false);
-				setErrorMessage(error?.data?.message);
-				setSuccessMessage('');
-				setOpen(true);
-			});
+				resetForm(true);
+			}, 400);
+		} catch (error) {
+			setLoading(false);
+			const { data } = error.response;
+			setErrorMessage(data.message);
+			setSuccessMessage('');
+			setOpen(true);
+		}
 	};
 
 	return (
 		<>
-			{successMessage && (
+			{successMessage ? (
 				<SnackbarSuccess
 					open={open}
 					setOpen={setOpen}
 					successMessage={successMessage}
 				/>
-			)}
-			{errorMessage && (
+			) : null}
+			{errorMessage ? (
 				<SnackbarError
 					open={failed}
 					setOpen={setFailed}
 					errorMessage={errorMessage}
 				/>
-			)}
+			) : null}
 			<Formik
 				initialValues={{
 					teamName: '',

@@ -17,6 +17,7 @@ const User = () => {
 	const [records, setRecords] = useState([]);
 	const [openPopup, setOpenPopup] = useState(false);
 	const [openDeletePopup, setOpenDeletePopup] = useState(false);
+	// const [loading, setLoading] = useState(false);
 	const [role, setRole] = useState('');
 	const fetchContext = useContext(FetchContext);
 	const authContext = useContext(AuthContext);
@@ -54,7 +55,7 @@ const User = () => {
 
 		usersChannel.bind('created', (newUsers) => {
 			setRecords((records) => [...records, newUsers]);
-			fetchContext.setRefreshKey(fetchContext.refreshKey + 1);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
 		usersChannel.bind('updated', (updatedUser) => {
@@ -63,7 +64,7 @@ const User = () => {
 					user._id === updatedUser._id ? { ...records, updatedUser } : user
 				)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey + 1);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
 		usersChannel.bind('updated-facilitator', (updatedUser) => {
@@ -72,10 +73,10 @@ const User = () => {
 					user._id === updatedUser._id ? { ...records, updatedUser } : user
 				)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey + 1);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
-		usersChannel.bind('deleted', (deletedUser) => {
+		usersChannel.bind('deleted-user', (deletedUser) => {
 			setRecords(
 				records.filter((user, index) => user._id !== deletedUser[index]._id)
 			);
