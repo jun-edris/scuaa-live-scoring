@@ -52,54 +52,36 @@ exports.addteam = async (req, res) => {
 		const existingTeam = await Team.findOne({
 			teamName,
 			gameEvent,
-		}).lean();
+		});
 
 		if (existingTeam) {
 			return res.status(400).json({ message: 'Team already exists' });
-		}
-
-		if (gameEvent === 'basketball' && players < 5) {
-			return res.status(400).json({
-				message: 'Number of players in a Basketball team must be 5 above',
-			});
-		}
-		if (gameEvent === 'volleyball' && players < 6) {
-			return res.status(400).json({
-				message: 'Number of players in a Volleyball team must be 6 above',
-			});
-		}
-		if (gameEvent === 'soccer' && players < 8) {
-			return res.status(400).json({
-				message: 'Number of players in a Soccer team must be 8 above',
-			});
-		}
-
-		const teamData = { teamName, players, gameEvent };
-
-		if (hasDuplicatesJerseyNumber(players)) {
-			return res
-				.status(400)
-				.json({ message: 'Players should not have the same jersey number' });
-		}
-		if (hasDuplicatesPlayerName(players)) {
-			return res
-				.status(400)
-				.json({ message: 'Players should not have the same name' });
-		}
-
-		const newTeam = new Team(teamData);
-		const savedTeam = await newTeam.save();
-
-		if (savedTeam) {
-			pusher.trigger('teams', 'inserted', savedTeam);
-			return res.status(201).json({
-				message: 'Success',
-				savedTeam,
-			});
 		} else {
-			return res.status(400).json({
-				message: 'There was a problem creating a team',
-			});
+			const playingPlayers = players.map((item) => item.name);
+			const existingPlayers = await Team.findOne().where(
+				'players.name',
+				playingPlayers
+			);
+			if (existingPlayers) {
+				return res.status(400).json({ message: 'Some players already exists' });
+			} else {
+				const newTeamData = { teamName, players, gameEvent };
+
+				const newTeam = new Team(newTeamData);
+				const savedTeam = await newTeam.save();
+
+				if (savedTeam) {
+					pusher.trigger('teams', 'inserted', savedTeam);
+					return res.status(201).json({
+						message: 'Success',
+						savedTeam,
+					});
+				} else {
+					return res.status(400).json({
+						message: 'There was a problem creating a team',
+					});
+				}
+			}
 		}
 	} catch (error) {
 		console.log(error);
