@@ -22,7 +22,6 @@ const Match = () => {
 			.get(`/${authContext.authState.userInfo.role}/schedule-user`)
 			.then(({ data }) => {
 				setRecords(data);
-				console.log(data);
 			});
 	};
 
@@ -36,13 +35,41 @@ const Match = () => {
 			fetchContext.setSched((sched) => [...fetchContext.sched, newSched]);
 			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
+
+		schedChannel.bind('updated', (updatedSched) => {
+			setRecords(
+				records.map((sched) =>
+					sched._id === updatedSched._id ? { ...records, updatedSched } : sched
+				)
+			);
+			fetchContext.setSched(
+				fetchContext.sched.map((sched) =>
+					sched._id === updatedSched._id
+						? { ...fetchContext.sched, updatedSched }
+						: sched
+				)
+			);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+		});
+
+		schedChannel.bind('deleted', (deletedSched) => {
+			setRecords(
+				records.filter((sched, index) => sched._id !== deletedSched[index]._id)
+			);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+		});
+
+		schedChannel.bind('deleted-all-by-user', (deletedScheds) => {
+			setRecords(
+				records.filter((sched, index) => sched._id !== deletedScheds[index]._id)
+			);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+		});
 		return () => {
 			schedChannel.unbind_all();
 			schedChannel.unsubscribe('schedule');
 		};
 	}, [fetchContext.refreshKey]);
-
-	console.log(records);
 
 	const handleClose = () => {
 		setOpenPopup(false);
@@ -56,7 +83,7 @@ const Match = () => {
 					<Grid
 						container
 						direction="row"
-						justify="flex-end"
+						justifyContent="flex-end"
 						alignItems="center"
 						spacing={2}
 					>

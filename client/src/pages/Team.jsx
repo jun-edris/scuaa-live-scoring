@@ -71,7 +71,7 @@ const Team = () => {
 						: team
 				)
 			);
-			fetchContext.setRefreshKey((fetchContext.refreshKey =+ 1));
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
 		teamChannel.bind('updated', (updatedTeam) => {
@@ -87,21 +87,21 @@ const Team = () => {
 						: team
 				)
 			);
-			fetchContext.setRefreshKey((fetchContext.refreshKey =+ 1));
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
 		teamChannel.bind('deleted', (deletedTeam) => {
 			setRecords(
 				records.filter((team, index) => team._id !== deletedTeam[index]._id)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey =+ 1);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 
 		teamChannel.bind('deleted-all', (deletedTeams) => {
 			setRecords(
 				records.filter((team, index) => team._id !== deletedTeams[index]._id)
 			);
-			fetchContext.setRefreshKey(fetchContext.refreshKey =+ 1);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
 		return () => {
 			teamChannel.unbind_all();
@@ -116,7 +116,7 @@ const Team = () => {
 					<Grid
 						container
 						direction="row"
-						justify="flex-end"
+						justifyContent="flex-end"
 						alignItems="center"
 						spacing={2}
 					>
