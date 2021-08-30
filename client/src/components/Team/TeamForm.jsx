@@ -49,6 +49,29 @@ const TeamForm = ({ game, team }) => {
 		}
 	};
 
+	const updateCredentials = async (credentials, resetForm) => {
+		try {
+			setLoading(true);
+			const { data } = await fetchContext.authAxios.patch(
+				`/${authContext.authState.userInfo.role}/update-team/${team._id}`,
+				credentials
+			);
+			setSuccessMessage(data.message);
+			setErrorMessage('');
+			setOpen(true);
+			setTimeout(() => {
+				setLoading(false);
+				resetForm(true);
+			}, 400);
+		} catch (error) {
+			setLoading(false);
+			const { data } = error.response;
+			setErrorMessage(data.message);
+			setSuccessMessage('');
+			setOpen(true);
+		}
+	};
+
 	return (
 		<>
 			{successMessage ? (
@@ -67,13 +90,17 @@ const TeamForm = ({ game, team }) => {
 			) : null}
 			<Formik
 				initialValues={{
-					teamName: '',
+					teamName: team ? team.teamName : '',
 					players: team ? team.players : [{ name: '', jerseyNumber: '' }],
 					gameEvent: game,
 				}}
 				validationSchema={teamSchema}
 				onSubmit={(values, { resetForm }) => {
-					teamSubmit(values, resetForm);
+					if (team) {
+						updateCredentials(values, resetForm);
+					} else {
+						teamSubmit(values, resetForm);
+					}
 				}}
 			>
 				{({ values }) => (
