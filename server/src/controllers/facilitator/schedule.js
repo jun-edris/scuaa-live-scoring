@@ -104,6 +104,8 @@ exports.createschedule = async (req, res) => {
 
 exports.updateschedule = async (req, res) => {
 	try {
+		const { date, teamOne, teamTwo } = req.body;
+
 		if (teamOne === teamTwo) {
 			return res.status(400).json({
 				message: 'Must not be the same team',
@@ -132,6 +134,7 @@ exports.updateschedule = async (req, res) => {
 			message: 'Schedule updated!',
 		});
 	} catch (error) {
+		console.log('sayup');
 		res.status(400).json({
 			message: 'Something went wrong',
 		});

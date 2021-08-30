@@ -55,6 +55,7 @@ exports.addteam = async (req, res) => {
 		});
 
 		if (existingTeam) {
+			console.log('Exist na ang team');
 			return res.status(400).json({ message: 'Team already exists' });
 		} else {
 			const playingPlayers = players.map((item) => item.name);
@@ -63,8 +64,22 @@ exports.addteam = async (req, res) => {
 				playingPlayers
 			);
 			if (existingPlayers) {
+				console.log('Naay nay parehag ngan sa laing team');
 				return res.status(400).json({ message: 'Some players already exists' });
 			} else {
+				if (hasDuplicatesJerseyNumber(players)) {
+					console.log('Naay kaparehag number');
+					return res.status(400).json({
+						message: 'Players should not have the same jersey number',
+					});
+				}
+				if (hasDuplicatesPlayerName(players)) {
+					console.log('Naay kaparehag ngan');
+					return res
+						.status(400)
+						.json({ message: 'Players should not have the same name' });
+				}
+
 				const newTeamData = { teamName, players, gameEvent };
 
 				const newTeam = new Team(newTeamData);
@@ -108,43 +123,47 @@ exports.uploadImage = async (req, res) => {
 exports.updateteam = async (req, res) => {
 	try {
 		const { teamName, players, gameEvent } = req.body;
-
-		if (hasDuplicatesJerseyNumber(players)) {
-			return res
-				.status(400)
-				.json({ message: 'Players should not have the same jersey number' });
-		}
-		if (hasDuplicatesPlayerName(players)) {
-			return res
-				.status(400)
-				.json({ message: 'Players should not have the same name' });
-		}
-
-		const existingTeam = await Team.findOne({
-			teamName,
-			gameEvent,
-		}).lean();
-
-		if (existingTeam) {
-			return res.status(400).json({ message: 'Team already exists' });
-		}
-
-		const updatedTeam = await Team.findByIdAndUpdate(
-			req.params.id,
-			{
-				teamName: teamName,
-				players: players,
-			},
-			{ new: true }
+		const playingPlayers = players.map((item) => item.name);
+		const existingPlayers = await Team.findOne().where(
+			'players.name',
+			playingPlayers
 		);
 
-		pusher.trigger('teams', 'updated', updatedTeam);
+		if (!existingPlayers._id === req.params.id) {
+			console.log('Naay pareha nga player sa laing team');
+			return res.status(400).json({ message: 'Some players already exists' });
+		} else {
+			if (hasDuplicatesJerseyNumber(players)) {
+				console.log('Naay kaparehag number');
+				return res.status(400).json({
+					message: 'Players should not have the same jersey number',
+				});
+			}
+			if (hasDuplicatesPlayerName(players)) {
+				console.log('Naay kaparehag ngan');
+				return res
+					.status(400)
+					.json({ message: 'Players should not have the same name' });
+			}
 
-		res.status(200).send({
-			message: 'A team is successfully updated!',
-			updatedTeam,
-		});
+			const updatedTeam = await Team.findByIdAndUpdate(
+				req.params.id,
+				{
+					teamName: teamName,
+					players: players,
+				},
+				{ new: true }
+			);
+
+			pusher.trigger('teams', 'updated', updatedTeam);
+
+			res.status(200).send({
+				message: 'A team is successfully updated!',
+				updatedTeam,
+			});
+		}
 	} catch (error) {
+		console.log(error);
 		return res.status(400).send({ message: 'Something went wrong!' });
 	}
 };
