@@ -70,12 +70,6 @@ router.delete('/admin/delete-all-users', checkJwt, requireAdmin, deletealluser);
 
 // END USERS
 
-
-
-
-
-
-
 // START TEAMS
 
 // GET
@@ -87,7 +81,7 @@ router.get('/facilitator/team-by-event', checkJwt, getAllTeamsByRole);
 router.post('/admin/team', checkJwt, requireAdmin, addteam);
 
 // UPDATE
-router.put('/admin/update-team/:id', checkJwt, requireAdmin, updateteam);
+router.patch('/admin/update-team/:id', checkJwt, requireAdmin, updateteam);
 router.patch(
 	'/admin/upload-image/:id',
 	checkJwt,
