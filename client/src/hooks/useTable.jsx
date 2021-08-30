@@ -68,8 +68,8 @@ export default function useTable(records, headCells, filterFn) {
 			rowsPerPageOptions={pages}
 			rowsPerPage={rowsPerPage}
 			count={records?.length}
-			onChangePage={handleChangePage}
-			onChangeRowsPerPage={handleChangeRowsPerPage}
+			onPageChange={handleChangePage}
+			onRowsPerPageChange={handleChangeRowsPerPage}
 		/>
 	);
 
