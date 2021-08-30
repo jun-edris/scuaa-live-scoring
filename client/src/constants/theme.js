@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
-export const customTheme = createMuiTheme({
+export const customTheme = createTheme({
 	// mao ni latest
 	palette: {
 		common: { black: '#000', white: '#fff' },
