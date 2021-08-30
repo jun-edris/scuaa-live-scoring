@@ -20,14 +20,14 @@ const FeedContent = () => {
 		<>
 			<Card className={classes.card}>
 				<CardContent>
-					<Grid container direction="column" justify="center">
+					<Grid container direction="column" justifyContent="center">
 						<Grid item>
 							<Box mb={1}>
 								<Grid
 									container
 									direction="row"
 									alignItems="center"
-									justify="space-between"
+									justifyContent="space-between"
 								>
 									<Grid item>
 										<Typography variant="h6">Soccer</Typography>
@@ -48,7 +48,9 @@ const FeedContent = () => {
 									container
 									direction="row"
 									alignItems="center"
-									justify={width > 494 ? 'space-evenly' : 'space-between'}
+									justifyContent={
+										width > 494 ? 'space-evenly' : 'space-between'
+									}
 								>
 									<Grid item>
 										<Grid
@@ -77,7 +79,7 @@ const FeedContent = () => {
 											container
 											direction="row"
 											alignItems="stretch"
-											justify="center"
+											justifyContent="center"
 											spacing={2}
 										>
 											<Grid item>
@@ -135,7 +137,7 @@ const FeedContent = () => {
 							<Grid
 								container
 								direction="row"
-								justify="center"
+								justifyContent="center"
 								alignItems="center"
 							>
 								<CustomButton

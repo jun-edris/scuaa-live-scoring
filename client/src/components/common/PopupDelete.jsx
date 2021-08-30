@@ -41,7 +41,7 @@ const PopupDelete = ({
 					<Grid
 						container
 						direction="column"
-						justify="center"
+						justifyContent="center"
 						alignItems="center"
 						spacing={2}
 					>
@@ -54,7 +54,12 @@ const PopupDelete = ({
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<Grid container direction="column" justify="center" spacing={2}>
+							<Grid
+								container
+								direction="column"
+								justifyContent="center"
+								spacing={2}
+							>
 								<Grid item>
 									<Typography variant="h6" component="p" align="center">
 										{title}
@@ -77,7 +82,7 @@ const PopupDelete = ({
 													<Grid
 														container
 														direction="row"
-														justify="space-between"
+														justifyContent="space-between"
 														alignItems="center"
 													>
 														<Button

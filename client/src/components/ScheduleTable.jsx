@@ -32,7 +32,7 @@ const ScheduleTable = ({ records }) => {
 	const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
 	const [openDeletePopup, setOpenDeletePopup] = useState(false);
 	const fetchContext = useContext(FetchContext);
-	const [schedules, setSchedules] = useState([]);
+	const [schedules, setSchedules] = useState({});
 	const [filterFn, setFilterFn] = useState({
 		fn: (items) => {
 			return items;
@@ -129,7 +129,7 @@ const ScheduleTable = ({ records }) => {
 									<Typography>{item.gameEvent}</Typography>
 								</TableCell>
 								<TableCell>
-									<Grid container justify="center" direction="column">
+									<Grid container justifyContent="center" direction="column">
 										<Grid item>
 											<Tooltip title="Update">
 												<IconButton
@@ -192,7 +192,7 @@ const ScheduleTable = ({ records }) => {
 				handleClose={handleClose}
 				title="Update Schedule"
 			>
-				<ScheduleForm />
+				<ScheduleForm schedules={schedules} />
 			</PopupUpdate>
 			<PopupDelete
 				openDeletePopup={openDeletePopup}

@@ -26,7 +26,7 @@ const TeamContainer = () => {
 						container
 						direction="row"
 						alignItems="center"
-						justify="space-between"
+						justifyContent="space-between"
 						style={{ padding: '8px 8px' }}
 					>
 						<Grid item>

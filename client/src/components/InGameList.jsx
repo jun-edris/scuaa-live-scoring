@@ -29,7 +29,7 @@ const InGameList = () => {
 			<Grid
 				container
 				direction="column"
-				justify="flex-start"
+				justifyContent="flex-start"
 				alignItems="center"
 			>
 				<List
@@ -43,7 +43,11 @@ const InGameList = () => {
 								height: '100px',
 							}}
 						>
-							<Grid container justify="space-between" alignItems="center">
+							<Grid
+								container
+								justifyContent="space-between"
+								alignItems="center"
+							>
 								<Grid item>
 									<Typography variant="h6">In Game</Typography>
 								</Grid>
@@ -81,7 +85,7 @@ const InGameList = () => {
 								<Grid
 									container
 									direction="column"
-									justify="center"
+									justifyContent="center"
 									alignItems="stretch"
 									spacing={2}
 								>
@@ -90,7 +94,7 @@ const InGameList = () => {
 											container
 											direction="row"
 											alignItems="center"
-											justify="space-between"
+											justifyContent="space-between"
 										>
 											<Grid item>
 												<Typography variant="h6" component="span">
@@ -112,7 +116,7 @@ const InGameList = () => {
 											container
 											direction="row"
 											alignItems="center"
-											justify="space-evenly"
+											justifyContent="space-evenly"
 											spacing={2}
 										>
 											<Grid item>
@@ -120,7 +124,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Avatar>
@@ -139,7 +143,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Typography variant="h6" component="span">
@@ -153,7 +157,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Avatar>
@@ -187,7 +191,7 @@ const InGameList = () => {
 								<Grid
 									container
 									direction="column"
-									justify="center"
+									justifyContent="center"
 									alignItems="stretch"
 									spacing={2}
 								>
@@ -196,7 +200,7 @@ const InGameList = () => {
 											container
 											direction="row"
 											alignItems="center"
-											justify="space-between"
+											justifyContent="space-between"
 										>
 											<Grid item>
 												<Typography variant="h6" component="span">
@@ -216,7 +220,7 @@ const InGameList = () => {
 											container
 											direction="row"
 											alignItems="center"
-											justify="space-evenly"
+											justifyContent="space-evenly"
 											spacing={2}
 										>
 											<Grid item>
@@ -224,7 +228,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Avatar>
@@ -243,7 +247,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Typography variant="h6" component="span">
@@ -257,7 +261,7 @@ const InGameList = () => {
 													container
 													direction="column"
 													alignItems="center"
-													justify="space-between"
+													justifyContent="space-between"
 												>
 													<Grid item>
 														<Avatar>

@@ -8,7 +8,7 @@ export const NotFound = () => {
 			<Grid
 				container
 				direction="column"
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 				className={classes.container}
 			>
@@ -16,7 +16,7 @@ export const NotFound = () => {
 					<Grid
 						container
 						direction="row"
-						justify="space-between"
+						justifyContent="space-between"
 						alignItems="center"
 					>
 						<Typography variant="h3">404</Typography>&nbsp;&nbsp;&nbsp;

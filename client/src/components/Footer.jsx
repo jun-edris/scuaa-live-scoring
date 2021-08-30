@@ -33,7 +33,7 @@ const Footer = () => {
 						container
 						direction="row"
 						alignItems="flex-start"
-						justify="space-around"
+						justifyContent="space-around"
 						spacing={2}
 					>
 						<Grid item>
@@ -49,7 +49,7 @@ const Footer = () => {
 											container
 											direction="column"
 											alignItems="center"
-											justify="center"
+											justifyContent="center"
 										>
 											<Link to="/home">
 												<Typography
@@ -127,7 +127,12 @@ const Footer = () => {
 						</Grid>
 						<Grid item>
 							<Box py={5}>
-								<Grid container direction="row" spacing={7} justify="center">
+								<Grid
+									container
+									direction="row"
+									spacing={7}
+									justifyContent="center"
+								>
 									<Grid item>
 										<Grid container direction="column">
 											<Grid item>
@@ -234,7 +239,7 @@ const Footer = () => {
 					</Grid>
 				</Container>
 				<Divider style={{ backgroundColor: '#424242' }} />
-				<Grid container justify="center" alignItems="center">
+				<Grid container justifyContent="center" alignItems="center">
 					<Grid item>
 						<Box py={1}>
 							<Typography variant="subtitle1" className={classes.textWhite}>

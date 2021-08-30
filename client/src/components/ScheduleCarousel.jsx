@@ -27,7 +27,7 @@ const ScheduleCarousel = () => {
 	const fetchContext = useContext(FetchContext);
 	const authContext = useContext(AuthContext);
 	const [sched, setSched] = useState([]);
-	
+
 	const getAllSched = () => {
 		fetchContext.authAxios.get(`/schedules`).then(({ data }) => {
 			setSched(data);
@@ -76,7 +76,7 @@ const ScheduleCarousel = () => {
 										<Grid
 											container
 											direction="column"
-											justify="center"
+											justifyContent="center"
 											alignItems="center"
 											spacing={2}
 										>
@@ -100,7 +100,7 @@ const ScheduleCarousel = () => {
 											<Grid
 												container
 												direction="row"
-												justify="space-evenly"
+												justifyContent="space-evenly"
 												alignItems="center"
 											>
 												<Grid item>
@@ -108,7 +108,7 @@ const ScheduleCarousel = () => {
 														container
 														direction="column"
 														alignItems="center"
-														justify="space-between"
+														justifyContent="space-between"
 													>
 														<Grid item>
 															<Avatar
@@ -128,7 +128,7 @@ const ScheduleCarousel = () => {
 														container
 														direction="column"
 														alignItems="center"
-														justify="space-between"
+														justifyContent="space-between"
 													>
 														<Grid item>
 															<Typography variant="h6" component="span">
@@ -142,7 +142,7 @@ const ScheduleCarousel = () => {
 														container
 														direction="column"
 														alignItems="center"
-														justify="space-between"
+														justifyContent="space-between"
 													>
 														<Grid item>
 															<Avatar

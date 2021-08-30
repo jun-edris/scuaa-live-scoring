@@ -77,7 +77,7 @@ const Header = () => {
 		<Grid
 			container
 			direction="column"
-			justify="center"
+			justifyContent="center"
 			alignItems="center"
 			className={classes.header}
 		>
@@ -88,7 +88,7 @@ const Header = () => {
 						container
 						direction="row"
 						alignItems="center"
-						justify="space-between"
+						justifyContent="space-between"
 						className={classes.header__top}
 					>
 						{/* logo */}
@@ -97,7 +97,7 @@ const Header = () => {
 								container
 								direction="column"
 								alignItems="center"
-								justify="center"
+								justifyContent="center"
 							>
 								<Link to="/home">
 									<Typography
@@ -188,7 +188,7 @@ const Header = () => {
 							<Grid
 								container
 								direction="row-reverse"
-								justify="center"
+								justifyContent="center"
 								alignItems="center"
 								className={classes.toolbar}
 							>
@@ -197,7 +197,7 @@ const Header = () => {
 										container
 										direction="row"
 										alignItems="center"
-										justify="flex-end"
+										justifyContent="flex-end"
 									>
 										<Grid item xs>
 											<Typography varaint="body1">Menu</Typography>
@@ -256,7 +256,11 @@ const Header = () => {
 											className={classes.logoutHide}
 										>
 											<Box my={1}>
-												<Grid container justify="center" alignItems="center">
+												<Grid
+													container
+													justifyContent="center"
+													alignItems="center"
+												>
 													<ul className={classes.bottom__socialIcons}>
 														<li className={classes.bottom__listSocialIcon}>
 															<Link to="#">

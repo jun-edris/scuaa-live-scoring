@@ -24,7 +24,7 @@ const HeaderCarousel = () => {
 					className={clsx(classes.swiper__slide, classes.slide__one)}
 				>
 					<Container maxWidth="md">
-						<Grid container justify="flex-end" alignItems="center">
+						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
 									variant="h2"
@@ -41,7 +41,7 @@ const HeaderCarousel = () => {
 					className={clsx(classes.swiper__slide, classes.slide__two)}
 				>
 					<Container maxWidth="md">
-						<Grid container justify="flex-end" alignItems="center">
+						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
 									variant="h2"
@@ -58,7 +58,7 @@ const HeaderCarousel = () => {
 					className={clsx(classes.swiper__slide, classes.slide__three)}
 				>
 					<Container maxWidth="md">
-						<Grid container justify="flex-end" alignItems="center">
+						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
 									variant="h2"

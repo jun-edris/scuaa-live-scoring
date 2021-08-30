@@ -38,7 +38,7 @@ const Schedules = ({ schedules, change }) => {
 												container
 												alignItems="baseline"
 												spacing={2}
-												justify="space-evenly"
+												justifyContent="space-evenly"
 											>
 												<Grid item xs={12} md>
 													<Grid
@@ -46,7 +46,7 @@ const Schedules = ({ schedules, change }) => {
 														direction="column"
 														alignItems="center"
 														spacing={2}
-														justify="space-between"
+														justifyContent="space-between"
 													>
 														<Grid item>
 															{item.teamOne.image && (
@@ -68,7 +68,7 @@ const Schedules = ({ schedules, change }) => {
 														direction="column"
 														alignItems="center"
 														spacing={2}
-														justify="space-between"
+														justifyContent="space-between"
 													>
 														<Grid item>
 															{item.teamTwo.image && (

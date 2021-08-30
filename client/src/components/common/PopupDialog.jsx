@@ -30,7 +30,7 @@ const PopupDialog = ({
 					<Grid
 						container
 						direction="row"
-						justify="space-between"
+						justifyContent="space-between"
 						alignItems="center"
 					>
 						<Typography variant="subtitle1" component="p">

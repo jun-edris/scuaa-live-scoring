@@ -70,7 +70,7 @@ const TeamSelection = ({ name, ...props }) => {
 		</>
 	);
 };
-const ScheduleForm = () => {
+const ScheduleForm = ({ schedules }) => {
 	const classes = useStyles();
 	const fetchContext = useContext(FetchContext);
 	const authContext = useContext(AuthContext);
@@ -107,6 +107,29 @@ const ScheduleForm = () => {
 		}
 	};
 
+	const updateCredentials = async (credentials, resetForm) => {
+		try {
+			setLoading(true);
+			const { data } = await fetchContext.authAxios.patch(
+				`/${authContext.authState.userInfo.role}/schedule/${schedules._id}`,
+				credentials
+			);
+			setSuccess(data.message);
+			setError('');
+			setOpen(true);
+			setTimeout(() => {
+				setLoading(false);
+				resetForm(true);
+			}, 400);
+		} catch (error) {
+			setLoading(false);
+			const { data } = error.response;
+			setError(data.message);
+			setSuccess('');
+			setOpen(true);
+		}
+	};
+
 	const getSchedByEvent = () => {
 		fetchContext.authAxios
 			.get(`/${authContext.authState.userInfo.role}/team-by-event`)
@@ -133,13 +156,17 @@ const ScheduleForm = () => {
 			)}
 			<Formik
 				initialValues={{
-					date: new Date(),
-					teamOne: '',
-					teamTwo: '',
+					date: schedules ? schedules.date : new Date(),
+					teamOne: schedules ? schedules.teamOne._id : '',
+					teamTwo: schedules ? schedules.teamTwo._id : '',
 				}}
 				validationSchema={scheduleSchema}
 				onSubmit={(values, { resetForm }) => {
-					submitCredentials(values, resetForm);
+					if (schedules) {
+						updateCredentials(values, resetForm);
+					} else {
+						submitCredentials(values, resetForm);
+					}
 				}}
 			>
 				{({ values }) => {

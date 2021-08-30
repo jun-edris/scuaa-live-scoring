@@ -65,7 +65,7 @@ const Scoreboard = () => {
 										<Grid
 											container
 											direction="column"
-											justify="space-evenly"
+											justifyContent="space-evenly"
 											spacing={4}
 										>
 											<Grid item>
@@ -76,7 +76,7 @@ const Scoreboard = () => {
 											<Grid item>
 												<Grid
 													container
-													justify="space-between"
+													justifyContent="space-between"
 													alignItems="center"
 												>
 													<Grid item>

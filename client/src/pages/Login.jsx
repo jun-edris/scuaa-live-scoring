@@ -106,7 +106,7 @@ const Login = () => {
 							container
 							direction="column"
 							alignItems="stretch"
-							justify="center"
+							justifyContent="center"
 							className={classes.formSide}
 						>
 							<Grid item xs={12}>
@@ -115,7 +115,7 @@ const Login = () => {
 										container
 										direction="row"
 										alignItems="flex-start"
-										justify="center"
+										justifyContent="center"
 									>
 										<img
 											src="images/186532331_162412032556911_1984827942288408119_n.png"

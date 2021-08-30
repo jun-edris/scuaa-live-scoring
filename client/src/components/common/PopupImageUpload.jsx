@@ -52,7 +52,7 @@ const PopupImageUpload = ({
 							container
 							direction="column"
 							alignItems="center"
-							justify="space-between"
+							justifyContent="space-between"
 							spacing={4}
 						>
 							<Grid item>

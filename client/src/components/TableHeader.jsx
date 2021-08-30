@@ -6,7 +6,7 @@ const TableHeader = ({ title, handleSearch }) => {
 	return (
 		<>
 			<Toolbar>
-				<Grid container direction="row" justify="space-between">
+				<Grid container direction="row" justifyContent="space-between">
 					<Grid item>
 						<Typography variant="h6">{title}</Typography>
 					</Grid>
