@@ -41,8 +41,16 @@ const DashboardSection1 = () => {
 	};
 
 	useEffect(() => {
-		getNumberOfTeams();
-		getNumberOfSchedules();
+		let isMounted = true;
+		if (isMounted) {
+			getNumberOfTeams();
+			getNumberOfSchedules();
+		}
+		return () => {
+			isMounted = false;
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 	return (
 		<>

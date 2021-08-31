@@ -32,7 +32,14 @@ const FacilitatorContainer = () => {
 	};
 
 	useEffect(() => {
-		getFacilitator();
+		let isMounted = true;
+		if (isMounted) {
+			getFacilitator();
+		}
+		return () => {
+			isMounted = false;
+		};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
 	return (

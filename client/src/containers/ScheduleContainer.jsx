@@ -26,7 +26,14 @@ const ScheduleContainer = () => {
 	};
 
 	useEffect(() => {
-		getAllSched();
+		let isMounted = true;
+		if (isMounted) {
+			getAllSched();
+		}
+		return () => {
+			isMounted = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
 	return (

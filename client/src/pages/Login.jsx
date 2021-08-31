@@ -37,12 +37,25 @@ const Login = () => {
 	const [failed, setFailed] = useState(false);
 
 	useEffect(() => {
-		if (!authContext.isAuthenticated()) {
-			history.push('/');
+		let isMounted = true;
+		if (isMounted) {
+			if (!authContext.isAuthenticated()) {
+				history.push('/');
+			} else if (
+				authContext.isAuthenticated() &&
+				(role === 'facilitator' || role === 'admin')
+			) {
+				<Redirect to="dashboard" />;
+			} else if (authContext.isAuthenticated() && role === 'student') {
+				<Redirect to="home" />;
+			}
 		}
+
 		return () => {
+			isMounted = false;
 			_isMounted.current = false;
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const login = async (credentials, resetForm) => {
@@ -52,15 +65,15 @@ const Login = () => {
 			.post('/signin', credentials)
 			.then(({ data }) => {
 				authContext.setAuthState(data);
-				setLoginSuccess(data.message);
-				setLoginError('');
-				setOpen(true);
-				setLoading(false);
-				resetForm(true);
-				setTimeout(() => {
-					setRedirectLogin(true);
-					setRole(data.userInfo.role);
-				}, 400);
+				// setLoginSuccess(data.message);
+				// setLoginError('');
+				// setOpen(true);
+				// setLoading(false);
+				// resetForm(true);
+				// setRole(data.userInfo.role);
+				// setTimeout(() => {
+				// 	setRedirectLogin(true);
+				// }, 700);
 			})
 			.catch((error) => {
 				setLoginError(error?.response?.data?.message);
@@ -68,17 +81,19 @@ const Login = () => {
 				setFailed(true);
 				setLoading(false);
 			});
-		return _isMounted;
+		return () => {
+			_isMounted.current = false;
+		};
 	};
 
 	return (
 		<>
-			{redirectLogin &&
-				(role === 'facilitator' || role === 'admin') &&
-				authContext.isAuthenticated() && <Redirect to="dashboard" />}
-			{redirectLogin && role === 'student' && authContext.isAuthenticated() && (
-				<Redirect to="home" />
-			)}
+			{/* {redirectLogin && (role === 'facilitator' || role === 'admin')
+				? authContext.isAuthenticated() && <Redirect to="dashboard" />
+				: redirectLogin &&
+				  role === 'student' &&
+				  authContext.isAuthenticated() && <Redirect to="home" />} */}
+
 			{loginSuccess && (
 				<SnackbarSuccess
 					open={open}
@@ -179,6 +194,7 @@ const Login = () => {
 																	name="password"
 																	type={showPassword ? 'text' : 'password'}
 																	label="Password"
+																	autoComplete="off"
 																	InputProps={{
 																		endAdornment: (
 																			<InputAdornment position="end">
