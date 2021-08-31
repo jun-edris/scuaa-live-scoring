@@ -2,7 +2,6 @@
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "http://scuaa.bisubalilihan.com",
 	"dependencies": {
 		"@date-io/core": "1.3.6",
 		"@date-io/date-fns": "1.3.13",
@@ -56,5 +55,5 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://localhost:3001"
+	"proxy": "https://scuaa-live-scoring-server.herokuapp.com/"
 }

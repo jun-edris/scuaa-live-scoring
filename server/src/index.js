@@ -12,7 +12,7 @@ const facilitatorRoute = require('./routes/facilitator');
 
 const app = express();
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3001;
 
 // use
 app.use(cors());
@@ -46,8 +46,8 @@ mongoose
 			}
 		});
 
-		app.listen(process.env.PORT, () => {
-			console.log(`API listening on localhost:${process.env.PORT}`);
+		app.listen(port, () => {
+			console.log(`API listening on localhost:${port}`);
 		});
 	})
 	.catch((err) => {

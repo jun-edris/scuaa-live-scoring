@@ -42,6 +42,11 @@ app.use((req, res, err, next) => {
 // START USERS
 
 //  GET
+
+router.get('/hello', async (req, res) => {
+	res.send('Hello World');
+});
+
 router.get('/admin/get-all-users', checkJwt, getallusers);
 router.get('/get-all-facilitator', checkJwt, getAllFacilitator);
 

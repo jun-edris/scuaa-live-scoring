@@ -1,3 +1,6 @@
+// TODO : Add "delete" and "delete all" feature
+
+
 import { useContext, useState } from 'react';
 import {
 	TableBody,
