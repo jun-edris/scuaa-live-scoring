@@ -8,6 +8,7 @@ import {
 import Wrapper from './containers/Wrapper';
 import LoadingPage from './components/LoadingPage';
 import { AuthContext } from './context/AuthContext';
+import Games from "./pages/Games";
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Match = lazy(() => import('./pages/Match'));
 const Team = lazy(() => import('./pages/Team'));
@@ -15,6 +16,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const User = lazy(() => import('./pages/User'));
+const Stats = lazy(() => import('./pages/Stats'));
 const Scoreboard = lazy(() => import('./pages/Scoreboard'));
 
 const Routes = () => {
@@ -99,7 +101,7 @@ const Routes = () => {
 			<Route
 				{...rest}
 				render={() =>
-					authContext.isAuthenticated() && authContext.isFacilitator() ? (
+					authContext.isAuthenticated() ? (
 						<div>{children}</div>
 					) : authContext.isAuthenticated() ? (
 						<Redirect to="/home" />
@@ -141,6 +143,9 @@ const Routes = () => {
 					<AuthenticatedRoute exact path="/home">
 						<Home />
 					</AuthenticatedRoute>
+					<AuthenticatedRoute exact path="/stats/:matchId">
+						<Stats />
+					</AuthenticatedRoute>
 					<AuthorizedRoute exact path="/dashboard">
 						<Dashboard />
 					</AuthorizedRoute>
@@ -150,10 +155,13 @@ const Routes = () => {
 					<FacilitatorRoute exact path="/match">
 						<Match />
 					</FacilitatorRoute>
+					<FacilitatorRoute exact path="/games">
+						<Games />
+					</FacilitatorRoute>
 					<AdminRoute exact path="/team">
 						<Team />
 					</AdminRoute>
-					<ScoringBoardRoute exact path="/scoreboard/">
+					<ScoringBoardRoute exact path="/scoreboard/:matchId">
 						<Scoreboard />
 					</ScoringBoardRoute>
 					<Route path="*">

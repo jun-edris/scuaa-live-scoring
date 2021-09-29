@@ -19,6 +19,8 @@ const createToken = (user) => {
 			sub: user._id,
 			email: user.email,
 			role: user.role,
+			firstName: user.firstName,
+			lastName: user.lastName,
 			gameEvent: user.gameEvent ? user.gameEvent : '',
 			iss: 'api.livescoring',
 			aud: 'api.livescoring',

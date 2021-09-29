@@ -8,13 +8,31 @@ import {
 	Select,
 	Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LiveTable from '../components/LiveTable';
+import { FetchContext } from '../context/FetchContext';
 import useStyles from './../styles/liveContainer';
 
 const LiveContainer = () => {
 	const classes = useStyles();
 	const [change, setChange] = useState('basketball');
+	const [live, setLive] = useState([]);
+	const fetchContext = useContext(FetchContext);
+
+	const getLiveMatches = () => {
+		fetchContext.authAxios
+			.get('/all-live-match/')
+			.then(({ data }) => {
+				setLive(data);
+			})
+			.catch((error) => console.log(error));
+	};
+
+	useEffect(() => {
+		getLiveMatches();
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetchContext.refreshKey]);
 
 	return (
 		<>
@@ -50,7 +68,7 @@ const LiveContainer = () => {
 						</Grid>
 					</Grid>
 				</Box>
-				<LiveTable />
+				<LiveTable live={live} change={change} />
 			</Paper>
 		</>
 	);

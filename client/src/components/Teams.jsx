@@ -14,10 +14,12 @@ import useStyles from './../styles/teams';
 const Teams = ({ teams, change }) => {
 	const classes = useStyles();
 
+	let teamByEvent = teams.filter((team) => team.gameEvent === change);
+
 	return (
 		<>
 			<TableContainer className={classes.root}>
-				<Table stickyHeader aria-label="Teams table">
+				<Table aria-label="Teams table">
 					<TableHead>
 						<TableRow>
 							<TableCell>Team</TableCell>
@@ -25,9 +27,12 @@ const Teams = ({ teams, change }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{teams
-							.filter((team) => team.gameEvent === change)
-							.map((team, index) => {
+						{teamByEvent.length === 0 ? (
+							<TableRow>
+								<TableCell>No teams for this event yet</TableCell>
+							</TableRow>
+						) : (
+							teamByEvent.map((team, index) => {
 								return (
 									<TableRow key={index}>
 										<TableCell>
@@ -58,7 +63,8 @@ const Teams = ({ teams, change }) => {
 										</TableCell>
 									</TableRow>
 								);
-							})}
+							})
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>

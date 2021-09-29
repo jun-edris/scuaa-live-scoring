@@ -8,6 +8,8 @@ const FetchProvider = ({ children }) => {
 	const [refreshKey, setRefreshKey] = useState(0);
 	const [teams, setTeams] = useState([]);
 	const [sched, setSched] = useState([]);
+	const [liveMatchList, setLiveMatchList] = useState([]);
+	const [scheduleList, setScheduleList] = useState([]);
 
 	const authAxios = axios.create({
 		baseURL: process.env.REACT_APP_API_URL,
@@ -20,6 +22,7 @@ const FetchProvider = ({ children }) => {
 
 	useEffect(() => {
 		resetKey();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -32,6 +35,10 @@ const FetchProvider = ({ children }) => {
 				setTeams,
 				setSched,
 				sched,
+				liveMatchList,
+				setLiveMatchList,
+				scheduleList,
+				setScheduleList,
 			}}
 		>
 			{children}

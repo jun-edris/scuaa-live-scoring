@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
+const { pusher } = require('./util');
 // routes
 const loginRoute = require('./routes/login');
 const adminRoute = require('./routes/admin');

@@ -1,4 +1,13 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import {
+	Box,
+	Container,
+	FormControl,
+	Grid,
+	InputLabel,
+	MenuItem,
+	Select,
+} from '@material-ui/core';
+import { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import HeaderCarousel from '../components/HeaderCarousel';
@@ -11,6 +20,7 @@ import useStyles from './../styles/home';
 
 const Home = () => {
 	const classes = useStyles();
+	const [change, setChange] = useState('basketball');
 	return (
 		<>
 			<section className={classes.root}>
@@ -21,10 +31,28 @@ const Home = () => {
 			</section>
 			<section className={classes.root}>
 				<Box mt={2} mb={4}>
-					<ScheduleCarousel />
+					<Container>
+						<Box mb={3}>
+							<FormControl variant="outlined">
+								<InputLabel id="Game-Selector">Event</InputLabel>
+								<Select
+									labelId="Game-Selector"
+									id="demo-simple-select-outlined"
+									value={change}
+									onChange={(e) => setChange(e.target.value)}
+									label="Game"
+								>
+									<MenuItem value="basketball">Basketball</MenuItem>
+									<MenuItem value="volleyball">Volleyball</MenuItem>
+									<MenuItem value="soccer">Soccer</MenuItem>
+								</Select>
+							</FormControl>
+						</Box>
+					</Container>
+					<ScheduleCarousel change={change} />
 				</Box>
 			</section>
-			<Box pb={10}>
+			<Box>
 				<Container maxWidth="lg">
 					<Grid
 						container

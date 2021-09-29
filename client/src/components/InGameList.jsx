@@ -14,16 +14,38 @@ import {
 	Select,
 	Typography,
 } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/Folder';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { FetchContext } from '../context/FetchContext';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import useStyles from './../styles/ingameList';
 import CustomButton from './common/CustomButton';
+import { useHistory } from 'react-router-dom';
 
 const InGameList = () => {
+	const history = useHistory();
 	const classes = useStyles();
 	const [change, setChange] = useState('basketball');
+	const [live, setLive] = useState([]);
 	const { width } = useWindowDimensions();
+	const fetchContext = useContext(FetchContext);
+
+	let matchByEvent = live.filter((live) => live.gameEvent === change);
+
+	const getLiveMatches = () => {
+		fetchContext.authAxios
+			.get('/all-not-done-live-match/')
+			.then(({ data }) => {
+				setLive(data);
+			})
+			.catch((error) => console.log(error));
+	};
+
+	useEffect(() => {
+		getLiveMatches();
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetchContext.refreshKey]);
+
 	return (
 		<>
 			<Grid
@@ -38,7 +60,6 @@ const InGameList = () => {
 						<ListSubheader
 							id="nested-list-subheader"
 							style={{
-								backgroundColor: '#fff',
 								paddingTop: '10px',
 								height: '100px',
 							}}
@@ -75,220 +96,123 @@ const InGameList = () => {
 					}
 					component={Paper}
 				>
-					<ListItem
-						style={{
-							marginBottom: '20px',
-						}}
-					>
-						<Paper elevation={3} square className={classes.content}>
-							<Box px={width < 1056 ? 1 : 3} pt={2} pb={1}>
-								<Grid
-									container
-									direction="column"
-									justifyContent="center"
-									alignItems="stretch"
-									spacing={2}
-								>
-									<Grid item>
+					{matchByEvent.length === 0 ? (
+						<ListItem>No recent live</ListItem>
+					) : (
+						matchByEvent.map((live, index) => (
+							<ListItem
+								key={index}
+								style={{
+									marginBottom: '20px',
+								}}
+							>
+								<Paper elevation={3} square className={classes.content}>
+									<Box px={width < 1056 ? 1 : 3} pt={2} pb={1}>
 										<Grid
 											container
-											direction="row"
-											alignItems="center"
-											justifyContent="space-between"
-										>
-											<Grid item>
-												<Typography variant="h6" component="span">
-													Basketball
-												</Typography>
-											</Grid>
-											<Chip
-												label={
-													<Typography variant="caption">
-														&bull;&nbsp;Live
-													</Typography>
-												}
-											/>
-										</Grid>
-									</Grid>
-									<Divider />
-									<Grid item md>
-										<Grid
-											container
-											direction="row"
-											alignItems="center"
-											justifyContent="space-evenly"
+											direction="column"
+											justifyContent="center"
+											alignItems="stretch"
 											spacing={2}
 										>
 											<Grid item>
 												<Grid
 													container
-													direction="column"
+													direction="row"
 													alignItems="center"
 													justifyContent="space-between"
 												>
+													<Chip
+														label={
+															<Typography variant="caption">
+																&bull;&nbsp;<strong>Live</strong>
+															</Typography>
+														}
+													/>
+												</Grid>
+											</Grid>
+											<Divider />
+											<Grid item md>
+												<Grid
+													container
+													direction="row"
+													alignItems="center"
+													justifyContent="space-evenly"
+													spacing={2}
+												>
 													<Grid item>
-														<Avatar>
-															<FolderIcon />
-														</Avatar>
+														<Grid
+															container
+															direction="column"
+															alignItems="center"
+															justifyContent="space-between"
+														>
+															<Grid item>
+																<Avatar
+																	alt="Team Logo"
+																	src={`/images/${live?.teamOne?.image}`}
+																/>
+															</Grid>
+															<Grid item>
+																<Typography variant="overline">
+																	{live?.teamOne?.teamName}
+																</Typography>
+															</Grid>
+														</Grid>
 													</Grid>
 													<Grid item>
-														<Typography variant="overline">
-															Balilihan
-														</Typography>
+														<Grid
+															container
+															direction="column"
+															alignItems="center"
+															justifyContent="space-between"
+														>
+															<Grid item>
+																<Typography variant="h6" component="span">
+																	VS
+																</Typography>
+															</Grid>
+														</Grid>
+													</Grid>
+													<Grid item>
+														<Grid
+															container
+															direction="column"
+															alignItems="center"
+															justifyContent="space-between"
+														>
+															<Grid item>
+																<Avatar
+																	alt="Team Logo"
+																	src={`/images/${live?.teamTwo?.image}`}
+																/>
+															</Grid>
+															<Grid item>
+																<Typography variant="overline">
+																	{live?.teamTwo?.teamName}
+																</Typography>
+															</Grid>
+														</Grid>
 													</Grid>
 												</Grid>
 											</Grid>
 											<Grid item>
-												<Grid
-													container
-													direction="column"
-													alignItems="center"
-													justifyContent="space-between"
-												>
-													<Grid item>
-														<Typography variant="h6" component="span">
-															VS
-														</Typography>
-													</Grid>
-												</Grid>
-											</Grid>
-											<Grid item>
-												<Grid
-													container
-													direction="column"
-													alignItems="center"
-													justifyContent="space-between"
-												>
-													<Grid item>
-														<Avatar>
-															<FolderIcon />
-														</Avatar>
-													</Grid>
-													<Grid item>
-														<Typography variant="overline">
-															Balilihan
-														</Typography>
-													</Grid>
-												</Grid>
+												<CustomButton
+													title="Watch"
+													variant="contained"
+													fullWidth
+													color="primary"
+													onClick={() =>
+														history.push(`/scoreboard/${live._id}`)
+													}
+												/>
 											</Grid>
 										</Grid>
-									</Grid>
-									<Grid item>
-										<CustomButton
-											title="Watch"
-											variant="contained"
-											fullWidth
-											color="primary"
-										/>
-									</Grid>
-								</Grid>
-							</Box>
-						</Paper>
-					</ListItem>
-					<ListItem>
-						<Paper elevation={3} square className={classes.content}>
-							<Box px={width < 1056 ? 1 : 3} pt={2} pb={1}>
-								<Grid
-									container
-									direction="column"
-									justifyContent="center"
-									alignItems="stretch"
-									spacing={2}
-								>
-									<Grid item>
-										<Grid
-											container
-											direction="row"
-											alignItems="center"
-											justifyContent="space-between"
-										>
-											<Grid item>
-												<Typography variant="h6" component="span">
-													Basketball
-												</Typography>
-											</Grid>
-											<Chip
-												label={
-													<Typography variant="caption">&bull;Live</Typography>
-												}
-											/>
-										</Grid>
-									</Grid>
-									<Divider />
-									<Grid item md>
-										<Grid
-											container
-											direction="row"
-											alignItems="center"
-											justifyContent="space-evenly"
-											spacing={2}
-										>
-											<Grid item>
-												<Grid
-													container
-													direction="column"
-													alignItems="center"
-													justifyContent="space-between"
-												>
-													<Grid item>
-														<Avatar>
-															<FolderIcon />
-														</Avatar>
-													</Grid>
-													<Grid item>
-														<Typography variant="overline">
-															Balilihan
-														</Typography>
-													</Grid>
-												</Grid>
-											</Grid>
-											<Grid item>
-												<Grid
-													container
-													direction="column"
-													alignItems="center"
-													justifyContent="space-between"
-												>
-													<Grid item>
-														<Typography variant="h6" component="span">
-															VS
-														</Typography>
-													</Grid>
-												</Grid>
-											</Grid>
-											<Grid item>
-												<Grid
-													container
-													direction="column"
-													alignItems="center"
-													justifyContent="space-between"
-												>
-													<Grid item>
-														<Avatar>
-															<FolderIcon />
-														</Avatar>
-													</Grid>
-													<Grid item>
-														<Typography variant="overline">
-															Balilihan
-														</Typography>
-													</Grid>
-												</Grid>
-											</Grid>
-										</Grid>
-									</Grid>
-									<Grid item>
-										<CustomButton
-											title="Watch"
-											variant="contained"
-											fullWidth
-											color="primary"
-										/>
-									</Grid>
-								</Grid>
-							</Box>
-						</Paper>
-					</ListItem>
+									</Box>
+								</Paper>
+							</ListItem>
+						))
+					)}
 				</List>
 			</Grid>
 		</>

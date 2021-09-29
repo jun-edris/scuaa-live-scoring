@@ -21,7 +21,7 @@ import { monthNames } from './../constants/month';
 
 SwiperCore.use([Navigation, Autoplay]);
 
-const ScheduleCarousel = () => {
+const ScheduleCarousel = ({ change }) => {
 	const classes = useStyles();
 	const { width } = useWindowDimensions();
 	const fetchContext = useContext(FetchContext);
@@ -50,120 +50,132 @@ const ScheduleCarousel = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
+	let schedByEvent = sched.filter((sched) => sched.gameEvent === change);
+
 	return (
 		<>
 			<Container>
 				<Swiper
 					autoplay={{ delay: 3000 }}
 					slidesPerView={
-						width >= 830 ? 4 : width >= 960 ? 5 : width <= 375 ? 2 : 3
+						width >= 830
+							? 4
+							: width >= 960
+							? 5
+							: width <= 375 && schedByEvent.length !== 1
+							? 2
+							: schedByEvent.length === 1
+							? 1
+							: 3
 					}
 					spaceBetween={20}
 					className={clsx(classes.mySwiper, classes.swiper__container)}
 				>
-					{sched.map((item, index) => {
-						let dateOfTheMatch = new Date(item.date);
-						let month = monthNames[dateOfTheMatch.getMonth()];
-						let day = dateOfTheMatch.getDate();
-						let year = dateOfTheMatch.getFullYear();
-						let currentDate = new Date();
-						let currentDay = currentDate.getDate();
+					{schedByEvent.length === 0
+						? 'No schedule for this event'
+						: schedByEvent.map((item, index) => {
+								let dateOfTheMatch = new Date(item.date);
+								let month = monthNames[dateOfTheMatch.getMonth()];
+								let day = dateOfTheMatch.getDate();
+								let year = dateOfTheMatch.getFullYear();
+								let currentDate = new Date();
+								let currentDay = currentDate.getDate();
 
-						return (
-							<SwiperSlide key={index} className={classes.slide}>
-								<Paper variant="outlined" square>
-									<Box pt={1} pb={3}>
-										<Grid
-											container
-											direction="column"
-											justifyContent="center"
-											alignItems="center"
-											spacing={2}
-										>
-											<Grid item xs={12}>
-												<Typography variant="subtitle2" align="center">
-													{currentDay === day
-														? 'Today @ ' + formatAMPM(dateOfTheMatch)
-														: currentDay + 1 === day
-														? 'Tomorrow @ ' + formatAMPM(dateOfTheMatch)
-														: month +
-														  ' ' +
-														  day +
-														  ' ' +
-														  year +
-														  ' , @ ' +
-														  formatAMPM(dateOfTheMatch)}
-													{}
-												</Typography>
-											</Grid>
+								return (
+									<SwiperSlide key={index} className={classes.slide}>
+										<Paper variant="outlined">
+											<Box pt={1} pb={3}>
+												<Grid
+													container
+													direction="column"
+													justifyContent="center"
+													alignItems="center"
+													spacing={2}
+												>
+													<Grid item xs={12}>
+														<Typography variant="subtitle2" align="center">
+															{currentDay === day
+																? 'Today @ ' + formatAMPM(dateOfTheMatch)
+																: currentDay + 1 === day
+																? 'Tomorrow @ ' + formatAMPM(dateOfTheMatch)
+																: month +
+																  ' ' +
+																  day +
+																  ' ' +
+																  year +
+																  ' , @ ' +
+																  formatAMPM(dateOfTheMatch)}
+															{}
+														</Typography>
+													</Grid>
 
-											<Grid
-												container
-												direction="row"
-												justifyContent="space-evenly"
-												alignItems="center"
-											>
-												<Grid item>
 													<Grid
 														container
-														direction="column"
+														direction="row"
+														justifyContent="space-evenly"
 														alignItems="center"
-														justifyContent="space-between"
 													>
 														<Grid item>
-															<Avatar
-																alt="Team Logo"
-																src={`/images/${item.teamOne.image}`}
-															/>
+															<Grid
+																container
+																direction="column"
+																alignItems="center"
+																justifyContent="space-between"
+															>
+																<Grid item>
+																	<Avatar
+																		alt="Team Logo"
+																		src={`/images/${item.teamOne.image}`}
+																	/>
+																</Grid>
+																<Grid item>
+																	<Typography variant="overline">
+																		{item.teamOne.teamName}
+																	</Typography>
+																</Grid>
+															</Grid>
 														</Grid>
 														<Grid item>
-															<Typography variant="overline">
-																{item.teamOne.teamName}
-															</Typography>
+															<Grid
+																container
+																direction="column"
+																alignItems="center"
+																justifyContent="space-between"
+															>
+																<Grid item>
+																	<Typography variant="h6" component="span">
+																		VS
+																	</Typography>
+																</Grid>
+															</Grid>
+														</Grid>
+														<Grid item>
+															<Grid
+																container
+																direction="column"
+																alignItems="center"
+																justifyContent="space-between"
+															>
+																<Grid item>
+																	<Avatar
+																		alt="Team Logo"
+																		src={`/images/${item.teamTwo.image}`}
+																	/>
+																</Grid>
+																<Grid item>
+																	<Typography variant="overline">
+																		{item.teamTwo.teamName}
+																	</Typography>
+																</Grid>
+															</Grid>
 														</Grid>
 													</Grid>
 												</Grid>
-												<Grid item>
-													<Grid
-														container
-														direction="column"
-														alignItems="center"
-														justifyContent="space-between"
-													>
-														<Grid item>
-															<Typography variant="h6" component="span">
-																VS
-															</Typography>
-														</Grid>
-													</Grid>
-												</Grid>
-												<Grid item>
-													<Grid
-														container
-														direction="column"
-														alignItems="center"
-														justifyContent="space-between"
-													>
-														<Grid item>
-															<Avatar
-																alt="Team Logo"
-																src={`/images/${item.teamTwo.image}`}
-															/>
-														</Grid>
-														<Grid item>
-															<Typography variant="overline">
-																{item.teamTwo.teamName}
-															</Typography>
-														</Grid>
-													</Grid>
-												</Grid>
-											</Grid>
-										</Grid>
-									</Box>
-								</Paper>
-							</SwiperSlide>
-						);
-					})}
+											</Box>
+										</Paper>
+									</SwiperSlide>
+								);
+						  })}
 				</Swiper>
 			</Container>
 		</>

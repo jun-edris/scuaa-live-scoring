@@ -24,6 +24,12 @@ export const navItems = [
 		allowedRoles: ['facilitator'],
 	},
 	{
+		label: 'Games',
+		path: 'games',
+		icon: 'sports',
+		allowedRoles: ['facilitator'],
+	},
+	{
 		label: 'Teams',
 		path: 'team',
 		icon: 'groups',

@@ -3,19 +3,32 @@ import {
 	Box,
 	Card,
 	CardContent,
-	Chip,
 	Divider,
 	Grid,
 	Typography,
 } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/Folder';
 import CustomButton from './common/CustomButton';
 import useStyles from './../styles/feedContent';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import { useHistory } from 'react-router-dom';
 
-const FeedContent = () => {
+const FeedContent = ({ live }) => {
 	const classes = useStyles();
+	const history = useHistory();
 	const { width } = useWindowDimensions();
+
+	let teamOnePlayers = live?.teamOne?.players;
+	let teamTwoPlayers = live?.teamTwo?.players;
+
+	let teamOneScore = teamOnePlayers?.reduce(
+		(prev, curr) => prev + curr.scores,
+		0
+	);
+	let teamTwoScore = teamTwoPlayers?.reduce(
+		(prev, curr) => prev + curr.scores,
+		0
+	);
+
 	return (
 		<>
 			<Card className={classes.card}>
@@ -30,13 +43,7 @@ const FeedContent = () => {
 									justifyContent="space-between"
 								>
 									<Grid item>
-										<Typography variant="h6">Soccer</Typography>
-									</Grid>
-									<Grid item>
-										<Chip
-											color="primary"
-											label={<Typography variant="overline">Result</Typography>}
-										/>
+										<Typography variant="h6">{live.gameEvent}</Typography>
 									</Grid>
 								</Grid>
 							</Box>
@@ -60,16 +67,17 @@ const FeedContent = () => {
 											spacing={2}
 										>
 											<Grid item>
-												<Avatar>
-													<FolderIcon />
-												</Avatar>
+												<Avatar
+													alt="Team Logo"
+													src={`/images/${live.teamOne.image}`}
+												/>
 											</Grid>
 											<Grid item>
 												<Typography
 													variant={width < 600 ? 'subtitle1' : 'h6'}
 													component="h6"
 												>
-													Balilihan
+													{live.teamOne.teamName}
 												</Typography>
 											</Grid>
 										</Grid>
@@ -87,7 +95,7 @@ const FeedContent = () => {
 													variant={width < 600 ? 'h4' : 'h2'}
 													component="h6"
 												>
-													2
+													{teamOneScore}
 												</Typography>
 											</Grid>
 											<Grid item>
@@ -103,7 +111,7 @@ const FeedContent = () => {
 													variant={width < 600 ? 'h4' : 'h2'}
 													component="h6"
 												>
-													0
+													{teamTwoScore}
 												</Typography>
 											</Grid>
 										</Grid>
@@ -116,16 +124,17 @@ const FeedContent = () => {
 											spacing={2}
 										>
 											<Grid item>
-												<Avatar>
-													<FolderIcon />
-												</Avatar>
+												<Avatar
+													alt="Team Logo"
+													src={`/images/${live.teamTwo.image}`}
+												/>
 											</Grid>
 											<Grid item>
 												<Typography
 													variant={width < 600 ? 'subtitle1' : 'h6'}
 													component="h6"
 												>
-													Candijay
+													{live.teamTwo.teamName}
 												</Typography>
 											</Grid>
 										</Grid>
@@ -144,6 +153,7 @@ const FeedContent = () => {
 									title="See Stats"
 									variant="contained"
 									className={classes.btn}
+									onClick={() => history.push(`stats/${live._id}`)}
 								/>
 							</Grid>
 						</Grid>

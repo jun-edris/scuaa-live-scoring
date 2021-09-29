@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import useStyles from './../styles/standings';
 
-const Standings = () => {
+const Standings = ({ teams, change }) => {
 	const classes = useStyles();
 	return (
 		<>
@@ -24,30 +24,29 @@ const Standings = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						<TableRow>
-							<TableCell>
-								<Grid container alignItems="center" spacing={2}>
-									<Grid item>
-										<Avatar />
-									</Grid>
-									<Grid item>Balilihan</Grid>
-								</Grid>
-							</TableCell>
-							<TableCell align="center">1</TableCell>
-							<TableCell align="center">0</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell>
-								<Grid container alignItems="center" spacing={2}>
-									<Grid item>
-										<Avatar />
-									</Grid>
-									<Grid item>Candijay</Grid>
-								</Grid>
-							</TableCell>
-							<TableCell align="center">0</TableCell>
-							<TableCell align="center">1</TableCell>
-						</TableRow>
+						{teams
+							.filter((team) => team.gameEvent === change)
+							.map((team, index) => {
+								return (
+									<TableRow key={index}>
+										<TableCell>
+											<Grid container alignItems="center" spacing={2}>
+												<Grid item>
+													{team.image && (
+														<Avatar
+															alt="Team Logo"
+															src={`/images/${team.image}`}
+														/>
+													)}
+												</Grid>
+												<Grid item>{team.teamName}</Grid>
+											</Grid>
+										</TableCell>
+										<TableCell align="center">{team.gamesWin}</TableCell>
+										<TableCell align="center">{team.gamesLose}</TableCell>
+									</TableRow>
+								);
+							})}
 					</TableBody>
 				</Table>
 			</TableContainer>

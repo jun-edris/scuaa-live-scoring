@@ -16,7 +16,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import useStyles from './../styles/login';
 import { validationSchema } from './../schema/login';
 import CustomButton from '../components/common/CustomButton';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { publicFetch } from '../utils/fetch';
 import SnackbarSuccess from './../components/common/SnackbarSuccess';
@@ -29,11 +29,9 @@ const Login = () => {
 	const authContext = useContext(AuthContext);
 	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-	const [redirectLogin, setRedirectLogin] = useState(false);
 	const [loginSuccess, setLoginSuccess] = useState();
 	const [loginError, setLoginError] = useState();
 	const [open, setOpen] = useState(false);
-	const [role, setRole] = useState();
 	const [failed, setFailed] = useState(false);
 
 	useEffect(() => {
@@ -41,13 +39,6 @@ const Login = () => {
 		if (isMounted) {
 			if (!authContext.isAuthenticated()) {
 				history.push('/');
-			} else if (
-				authContext.isAuthenticated() &&
-				(role === 'facilitator' || role === 'admin')
-			) {
-				<Redirect to="dashboard" />;
-			} else if (authContext.isAuthenticated() && role === 'student') {
-				<Redirect to="home" />;
 			}
 		}
 
@@ -65,15 +56,6 @@ const Login = () => {
 			.post('/signin', credentials)
 			.then(({ data }) => {
 				authContext.setAuthState(data);
-				// setLoginSuccess(data.message);
-				// setLoginError('');
-				// setOpen(true);
-				// setLoading(false);
-				// resetForm(true);
-				// setRole(data.userInfo.role);
-				// setTimeout(() => {
-				// 	setRedirectLogin(true);
-				// }, 700);
 			})
 			.catch((error) => {
 				setLoginError(error?.response?.data?.message);

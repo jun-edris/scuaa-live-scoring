@@ -3,16 +3,13 @@ import {
 	KeyboardDateTimePicker,
 } from '@material-ui/pickers';
 import {
-	Button,
 	Box,
-	makeStyles,
 	Grid,
 	FormHelperText,
 	Select,
 	MenuItem,
 	InputLabel,
 	FormControl,
-	Snackbar,
 	CircularProgress,
 } from '@material-ui/core';
 import CustomButton from './common/CustomButton';
@@ -139,7 +136,14 @@ const ScheduleForm = ({ schedules }) => {
 	};
 
 	useEffect(() => {
-		getSchedByEvent();
+		let isMounted = true;
+		if (isMounted) {
+			getSchedByEvent();
+		}
+		return () => {
+			isMounted = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

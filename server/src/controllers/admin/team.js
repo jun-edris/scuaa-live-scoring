@@ -55,46 +55,52 @@ exports.addteam = async (req, res) => {
 		});
 
 		if (existingTeam) {
-			console.log('Exist na ang team');
 			return res.status(400).json({ message: 'Team already exists' });
 		} else {
-			const playingPlayers = players.map((item) => item.name);
-			const existingPlayers = await Team.findOne().where(
-				'players.name',
-				playingPlayers
-			);
-			if (existingPlayers) {
-				console.log('Naay nay parehag ngan sa laing team');
-				return res.status(400).json({ message: 'Some players already exists' });
+			if (players.length < 5 && gameEvent === 'basketball') {
+				return res.status(400).json({ message: 'Lacking of players' });
+			} else if (players.length < 6 && gameEvent === 'volleyball') {
+				return res.status(400).json({ message: 'Lacking of players' });
+			} else if (players.length < 8 && gameEvent === 'soccer') {
+				return res.status(400).json({ message: 'Lacking of players' });
 			} else {
-				if (hasDuplicatesJerseyNumber(players)) {
-					console.log('Naay kaparehag number');
-					return res.status(400).json({
-						message: 'Players should not have the same jersey number',
-					});
-				}
-				if (hasDuplicatesPlayerName(players)) {
-					console.log('Naay kaparehag ngan');
+				const playingPlayers = players.map((item) => item.name);
+				const existingPlayers = await Team.findOne().where(
+					'players.name',
+					playingPlayers
+				);
+				if (existingPlayers) {
 					return res
 						.status(400)
-						.json({ message: 'Players should not have the same name' });
-				}
-
-				const newTeamData = { teamName, players, gameEvent };
-
-				const newTeam = new Team(newTeamData);
-				const savedTeam = await newTeam.save();
-
-				if (savedTeam) {
-					pusher.trigger('teams', 'inserted', savedTeam);
-					return res.status(201).json({
-						message: 'Success',
-						savedTeam,
-					});
+						.json({ message: 'Some players already exists' });
 				} else {
-					return res.status(400).json({
-						message: 'There was a problem creating a team',
-					});
+					if (hasDuplicatesJerseyNumber(players)) {
+						return res.status(400).json({
+							message: 'Players should not have the same jersey number',
+						});
+					}
+					if (hasDuplicatesPlayerName(players)) {
+						return res
+							.status(400)
+							.json({ message: 'Players should not have the same name' });
+					}
+
+					const newTeamData = { teamName, players, gameEvent };
+
+					const newTeam = new Team(newTeamData);
+					const savedTeam = await newTeam.save();
+
+					if (savedTeam) {
+						pusher.trigger('teams', 'inserted', savedTeam);
+						return res.status(201).json({
+							message: 'Success',
+							savedTeam,
+						});
+					} else {
+						return res.status(400).json({
+							message: 'There was a problem creating a team',
+						});
+					}
 				}
 			}
 		}

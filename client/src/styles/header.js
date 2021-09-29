@@ -72,7 +72,7 @@ export default makeStyles((theme) => ({
 	},
 	appBar: {
 		backgroundColor: theme.palette.background.paper,
-		color: theme.palette.text.primary,
+		color: 'white',
 	},
 	toolbar: {
 		[theme.breakpoints.down('sm')]: {
@@ -102,8 +102,10 @@ export default makeStyles((theme) => ({
 		margin: 0,
 		display: 'flex',
 		flexDirection: 'row',
+		color: '#fff',
 	},
 	inRouteLink: {
+		color: '#fff',
 		padding: 0,
 		[theme.breakpoints.down('xs')]: {
 			listStyle: 'none',
@@ -116,14 +118,16 @@ export default makeStyles((theme) => ({
 		},
 	},
 	link: {
+		color: '#fff',
 		'&:hover': {
-			color: '#d8302f',
+			color: '#fff',
 			transition: 'all 0.3s ease-in-out 0s',
 		},
 	},
 	inRoute: {
 		borderBottom: '3px solid #d8302f',
 		padding: 0,
+		color: '#fff',
 		[theme.breakpoints.down('xs')]: {
 			background: '#d8302f',
 			border: 0,

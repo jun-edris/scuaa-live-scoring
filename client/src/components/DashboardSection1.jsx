@@ -17,6 +17,7 @@ const DashboardSection1 = () => {
 	const fetchContext = useContext(FetchContext);
 	const [teams, setTeams] = useState(0);
 	const [sched, setSched] = useState(0);
+	const [live, setLive] = useState(0);
 
 	const getNumberOfTeams = () => {
 		fetchContext.authAxios
@@ -39,12 +40,23 @@ const DashboardSection1 = () => {
 				console.log(error);
 			});
 	};
+	const getNumberOfLive = () => {
+		fetchContext.authAxios
+			.get(`/number-live/`)
+			.then(({ data }) => {
+				setLive(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	useEffect(() => {
 		let isMounted = true;
 		if (isMounted) {
 			getNumberOfTeams();
 			getNumberOfSchedules();
+			getNumberOfLive();
 		}
 		return () => {
 			isMounted = false;
@@ -68,7 +80,7 @@ const DashboardSection1 = () => {
 									</Typography>
 								</Grid>
 								<Grid item>
-									<Avatar>
+									<Avatar style={{ backgroundColor: '#2196f3' }}>
 										<FontAwesomeIcon icon={faUsers} />
 									</Avatar>
 								</Grid>
@@ -89,7 +101,7 @@ const DashboardSection1 = () => {
 									</Typography>
 								</Grid>
 								<Grid item>
-									<Avatar>
+									<Avatar style={{ backgroundColor: '#ffc107' }}>
 										<Icon>pending_actions</Icon>
 									</Avatar>
 								</Grid>
@@ -104,11 +116,13 @@ const DashboardSection1 = () => {
 								<Grid item sm>
 									<Typography variant="subtitle1">Live Games</Typography>
 									<Typography variant="h3" component="h6">
-										9
+										{fetchContext.liveMatchList.length === 0
+											? live
+											: fetchContext.liveMatchList.length}
 									</Typography>
 								</Grid>
 								<Grid item>
-									<Avatar>
+									<Avatar style={{ backgroundColor: '#f44336' }}>
 										<FontAwesomeIcon icon={faPlay} />
 									</Avatar>
 								</Grid>

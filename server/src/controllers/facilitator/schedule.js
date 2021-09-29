@@ -39,7 +39,7 @@ exports.getNumberOfSchedule = async (req, res) => {
 exports.getallschedulebyuser = async (req, res) => {
 	try {
 		const { sub } = req.user;
-		const schedule = await Schedule.find({ user: sub });
+		const schedule = await Schedule.find({ user: sub, isDone: false });
 
 		res.status(200).json(schedule);
 	} catch (error) {
@@ -147,10 +147,17 @@ exports.doneMatch = async (req, res) => {
 			req.params.id,
 			{
 				isDone: true,
+				isStarted: false,
 			},
 			{ new: true }
 		);
-		pusher.trigger('schedule', 'done-sched', doneSched);
+
+		return res.status(200).json({
+			message: 'Schedule updated!',
+		});
+
+		// console.log(doneSched);
+		// pusher.trigger('schedule', 'updated', doneSched);
 	} catch (error) {
 		console.log(error);
 		return res.status(400).send({ message: 'Something went wrong' });
@@ -166,7 +173,7 @@ exports.startedmatch = async (req, res) => {
 			},
 			{ new: true }
 		);
-		pusher.trigger('schedule', 'start-match', startMatch);
+		pusher.trigger('schedule', 'updated', startMatch);
 	} catch (error) {
 		console.log(error);
 		return res.status(400).send({ message: 'Something went wrong' });
@@ -191,8 +198,8 @@ exports.deletematch = async (req, res) => {
 exports.deleteallmatch = async (req, res) => {
 	try {
 		const { sub } = req.user;
-		const deletedSchedules = await Schedule.find({ user: sub });
-		await Schedule.deleteMany({ user: sub });
+		const deletedSchedules = await Schedule.find({ user: sub, isDone: false });
+		await Schedule.deleteMany({ user: sub, isDone: false });
 
 		pusher.trigger('schedule', 'deleted-all-by-user', deletedSchedules);
 		return res.status(200).json({
@@ -200,7 +207,7 @@ exports.deleteallmatch = async (req, res) => {
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message: 'Something went wrong.',
+			message: 'Something went wrong!',
 		});
 	}
 };

@@ -47,17 +47,25 @@ const liveSchema = new mongoose.Schema(
 					},
 					fouls: {
 						type: Number,
+						default: 0,
 						trim: true,
 					},
 					card: {
 						yellow: {
 							type: Number,
+							default: 0,
 							trim: true,
 						},
 						red: {
 							type: Number,
+							default: 0,
 							trim: true,
 						},
+					},
+					subtituted: {
+						type: Boolean,
+						trim: true,
+						default: false,
 					},
 				},
 			],
@@ -95,17 +103,25 @@ const liveSchema = new mongoose.Schema(
 					},
 					fouls: {
 						type: Number,
+						default: 0,
 						trim: true,
 					},
 					card: {
 						yellow: {
 							type: Number,
+							default: 0,
 							trim: true,
 						},
 						red: {
 							type: Number,
+							default: 0,
 							trim: true,
 						},
+					},
+					subtituted: {
+						type: Boolean,
+						trim: true,
+						default: false,
 					},
 				},
 			],
@@ -132,6 +148,10 @@ const liveSchema = new mongoose.Schema(
 		isDone: {
 			type: Boolean,
 			default: false,
+		},
+		userName: {
+			type: String,
+			trim: true,
 		},
 	},
 	{ timestamps: true }

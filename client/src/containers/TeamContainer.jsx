@@ -8,7 +8,7 @@ import {
 	Select,
 	Typography,
 } from '@material-ui/core';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Teams from '../components/Teams';
 import { FetchContext } from '../context/FetchContext';
 import useStyles from './../styles/teamContainer';
@@ -17,6 +17,22 @@ const TeamContainer = () => {
 	const classes = useStyles();
 	const fetchContext = useContext(FetchContext);
 	const [change, setChange] = useState('basketball');
+	const [teams, setTeams] = useState([]);
+
+	const getTeams = () => {
+		fetchContext.authAxios
+			.get('/get-all-teams')
+			.then(({ data }) => {
+				setTeams(data);
+			})
+			.catch((error) => console.log(error));
+	};
+
+	useEffect(() => {
+		getTeams();
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetchContext.refreshKey]);
 
 	return (
 		<>
@@ -52,7 +68,7 @@ const TeamContainer = () => {
 						</Grid>
 					</Grid>
 				</Box>
-				<Teams teams={fetchContext.teams} change={change} />
+				<Teams teams={teams} change={change} />
 			</Paper>
 		</>
 	);

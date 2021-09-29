@@ -12,10 +12,12 @@ import {
 import { monthNames } from './../constants/month';
 
 const Schedules = ({ schedules, change }) => {
+	let schedByEvent = schedules.filter((sched) => sched.gameEvent === change);
+
 	return (
 		<>
 			<TableContainer>
-				<Table stickyHeader aria-label="Teams table">
+				<Table aria-label="Teams table">
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">Teams to Compete</TableCell>
@@ -23,9 +25,12 @@ const Schedules = ({ schedules, change }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{schedules
-							.filter((team) => team.gameEvent === change)
-							.map((item, index) => {
+						{schedByEvent.length === 0 ? (
+							<TableRow>
+								<TableCell>No schedules yet</TableCell>
+							</TableRow>
+						) : (
+							schedByEvent?.map((item, index) => {
 								let dateOfTheMatch = new Date(item.date);
 								let month = monthNames[dateOfTheMatch.getMonth()];
 								let day = dateOfTheMatch.getDate();
@@ -88,7 +93,8 @@ const Schedules = ({ schedules, change }) => {
 										</TableCell>
 									</TableRow>
 								);
-							})}
+							})
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>

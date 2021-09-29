@@ -4,11 +4,11 @@ import CustomButton from '../components/common/CustomButton';
 import ScheduleTable from './../components/ScheduleTable';
 import AddIcon from '@material-ui/icons/Add';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-import PopupDelete from '../components/common/PopupDelete';
 import { FetchContext } from '../context/FetchContext';
 import ScheduleForm from '../components/ScheduleForm';
 import { AuthContext } from '../context/AuthContext';
 import PopupSchedule from '../components/common/PopupSchedule';
+import PopupDeleteAll from '../components/common/PopupDeleteAll';
 
 const Match = () => {
 	const [records, setRecords] = useState([]);
@@ -23,6 +23,18 @@ const Match = () => {
 			.then(({ data }) => {
 				setRecords(data);
 			});
+	};
+
+	const onDelete = async () => {
+		try {
+			const { data } = await fetchContext.authAxios.delete(
+				`/${authContext.authState.userInfo.role}/delete-all-schedule/`
+			);
+			console.log(data.message);
+		} catch (err) {
+			const { data } = err.response;
+			console.log(data.message);
+		}
 	};
 
 	useEffect(() => {
@@ -65,10 +77,24 @@ const Match = () => {
 			);
 			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
 		});
+
+		const liveMatchChannel = authContext.pusher.subscribe('liveMatch');
+
+		liveMatchChannel.bind('inserted', function (newLiveMatch) {
+			fetchContext.setLiveMatchList([
+				...fetchContext.setLiveMatchListliveMatchList,
+				newLiveMatch,
+			]);
+			fetchContext.setRefreshKey((fetchContext.refreshKey = +1));
+		});
+
 		return () => {
 			schedChannel.unbind_all();
 			schedChannel.unsubscribe('schedule');
+			liveMatchChannel.unbind_all();
+			liveMatchChannel.unsubscribe('liveMatch');
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
 	const handleClose = () => {
@@ -92,6 +118,7 @@ const Match = () => {
 								title="Delete all"
 								Icon={<ClearAllIcon />}
 								variant="contained"
+								color="secondary"
 								onClick={() => setOpenDeletePopup(true)}
 							/>
 						</Grid>
@@ -119,10 +146,11 @@ const Match = () => {
 			>
 				<ScheduleForm />
 			</PopupSchedule>
-			<PopupDelete
+			<PopupDeleteAll
 				openDeletePopup={openDeletePopup}
 				handleClose={handleClose}
-				title="Delete All Teams?"
+				title="Delete All Schedule?"
+				onDeleteAll={onDelete}
 			/>
 		</>
 	);

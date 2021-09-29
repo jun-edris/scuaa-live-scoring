@@ -8,12 +8,32 @@ import {
 	Select,
 	Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Standings from '../components/Standings';
+import { FetchContext } from '../context/FetchContext';
 import useStyles from './../styles/standingContainer';
+
 const StandingContainer = () => {
 	const classes = useStyles();
+	const [teams, setTeams] = useState([]);
 	const [change, setChange] = useState('basketball');
+	const fetchContext = useContext(FetchContext);
+
+	const getTeams = () => {
+		fetchContext.authAxios
+			.get('/get-all-teams')
+			.then(({ data }) => {
+				setTeams(data);
+			})
+			.catch((error) => console.log(error));
+	};
+
+	useEffect(() => {
+		getTeams();
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetchContext.refreshKey]);
+
 	return (
 		<>
 			<Paper>
@@ -48,7 +68,7 @@ const StandingContainer = () => {
 						</Grid>
 					</Grid>
 				</Box>
-				<Standings />
+				<Standings teams={teams} change={change} />
 			</Paper>
 		</>
 	);

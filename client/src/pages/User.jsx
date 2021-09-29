@@ -8,9 +8,9 @@ import PopupDialog from '../components/common/PopupDialog';
 import { users } from './../constants/selection';
 import Render from './../components/User/Render';
 import useStyles from './../styles/user';
-import PopupDelete from '../components/common/PopupDelete';
 import { AuthContext } from '../context/AuthContext';
 import { FetchContext } from '../context/FetchContext';
+import PopupDeleteAll from '../components/common/PopupDeleteAll';
 
 const User = () => {
 	const classes = useStyles();
@@ -94,6 +94,7 @@ const User = () => {
 			usersChannel.unbind_all();
 			usersChannel.unsubscribe('users');
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
 	return (
@@ -140,7 +141,7 @@ const User = () => {
 			>
 				<Render role={role} />
 			</PopupDialog>
-			<PopupDelete
+			<PopupDeleteAll
 				openDeletePopup={openDeletePopup}
 				handleClose={handleClose}
 				title="Delete All User?"

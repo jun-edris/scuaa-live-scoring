@@ -41,8 +41,8 @@ const navItems = [
 		path: 'contact',
 	},
 	{
-		label: 'Schedules',
-		path: 'schedules',
+		label: 'Settings',
+		path: 'settings',
 	},
 ];
 
@@ -200,7 +200,7 @@ const Header = () => {
 										justifyContent="flex-end"
 									>
 										<Grid item xs>
-											<Typography varaint="body1">Menu</Typography>
+											<Typography variant="body1">Menu</Typography>
 										</Grid>
 										<Grid item>
 											<IconButton

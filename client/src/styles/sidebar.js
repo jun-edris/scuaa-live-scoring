@@ -7,11 +7,11 @@ export default makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
 	inRoute: {
 		padding: 0,
-		background: '#d8302f',
+		background: theme.palette.secondary.main,
 		border: 0,
 		color: '#fff',
 		'&:hover': {
-			background: '#d8302f',
+			background: theme.palette.secondary.main,
 			border: 0,
 		},
 	},
@@ -29,10 +29,10 @@ export default makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 	notInRouteLink: {
+		color: '#fff',
 		'&:hover': {
 			background: '#d8302f',
 			border: 0,
-			color: '#fff',
 		},
 	},
 	inRouteLink: {

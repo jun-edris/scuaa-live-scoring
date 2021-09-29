@@ -9,9 +9,9 @@ import AddIcon from '@material-ui/icons/Add';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import { gameEvent } from './../constants/selection';
 import TeamsTable from '../components/TeamsTable';
-import PopupDelete from '../components/common/PopupDelete';
 import { FetchContext } from '../context/FetchContext';
 import { AuthContext } from '../context/AuthContext';
+import PopupDeleteAll from '../components/common/PopupDeleteAll';
 
 const Team = () => {
 	const inputEl = useRef(null);
@@ -107,6 +107,7 @@ const Team = () => {
 			teamChannel.unbind_all();
 			teamChannel.unsubscribe('teams');
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
 	return (
@@ -157,7 +158,7 @@ const Team = () => {
 			>
 				<Render game={role} />
 			</PopupDialog>
-			<PopupDelete
+			<PopupDeleteAll
 				openDeletePopup={openDeletePopup}
 				handleClose={handleClose}
 				title="Delete All Teams?"

@@ -13,6 +13,7 @@
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.58",
 		"@material-ui/pickers": "^3.3.10",
+		"@react-pdf/renderer": "^1.6.17",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
@@ -55,5 +56,5 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "https://scuaa-live-scoring-server.herokuapp.com/"
+	"proxy": "http://localhost:3001/"
 }

@@ -15,7 +15,6 @@ const PopupDelete = ({
 	data,
 	openDeletePopup,
 	handleClose,
-	onDeleteAll,
 	loading,
 	error,
 	success,
@@ -70,8 +69,6 @@ const PopupDelete = ({
 									onSubmit={(values) => {
 										if (values) {
 											onDelete(values.data._id);
-										} else {
-											onDeleteAll();
 										}
 									}}
 								>
@@ -97,16 +94,8 @@ const PopupDelete = ({
 														<input type="text" name="data" hidden />
 														<Button
 															color="primary"
-															variant="contained"
 															size="small"
 															type="submit"
-															// onClick={() =>
-															// 	data
-															// 		? onDelete(data._id)
-															// 		: onDeleteAll()
-															// 		? onDeleteAll()
-															// 		: null
-															// }
 															disabled={loading}
 															startIcon={
 																loading ? (
