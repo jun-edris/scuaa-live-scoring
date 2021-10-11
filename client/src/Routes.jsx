@@ -8,7 +8,11 @@ import {
 import Wrapper from './containers/Wrapper';
 import LoadingPage from './components/LoadingPage';
 import { AuthContext } from './context/AuthContext';
-import Games from "./pages/Games";
+const Games = lazy(() => import('./pages/Games'));
+const About = lazy(() => import('./pages/About'));
+const Settings = lazy(() => import('./pages/Settings/Settings'));
+const Contact = lazy(() => import('./pages/Contact'));
+const AuthSettings = lazy(() => import('./pages/Settings/AuthSettings'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Match = lazy(() => import('./pages/Match'));
 const Team = lazy(() => import('./pages/Team'));
@@ -143,11 +147,23 @@ const Routes = () => {
 					<AuthenticatedRoute exact path="/home">
 						<Home />
 					</AuthenticatedRoute>
+					<AuthenticatedRoute exact path="/about">
+						<About />
+					</AuthenticatedRoute>
+					<AuthenticatedRoute exact path="/contact">
+						<Contact />
+					</AuthenticatedRoute>
+					<AuthenticatedRoute exact path="/settings">
+						<Settings />
+					</AuthenticatedRoute>
 					<AuthenticatedRoute exact path="/stats/:matchId">
 						<Stats />
 					</AuthenticatedRoute>
 					<AuthorizedRoute exact path="/dashboard">
 						<Dashboard />
+					</AuthorizedRoute>
+					<AuthorizedRoute exact path="/auth-settings">
+						<AuthSettings />
 					</AuthorizedRoute>
 					<AdminRoute exact path="/user">
 						<User />

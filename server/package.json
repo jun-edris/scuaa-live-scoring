@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"description": "SCUAA Live Scoring",
 	"main": "index.js",
-		"scripts": {
-		"start": "nodemon ./src/index.js"
+	"scripts": {
+		"start": "node ./src/index.js"
 	},
 	"keywords": [
 		"live",

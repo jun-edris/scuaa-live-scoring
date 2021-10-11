@@ -9,7 +9,6 @@ const {
 	deletealluser,
 	getAllFacilitator,
 } = require('./../controllers/admin/user');
-const { changepassword } = require('./../controllers/login');
 const {
 	getallteam,
 	getNumberOfTeams,
@@ -60,7 +59,6 @@ router.post(
 );
 
 // UPDATE
-router.patch('/change-password', checkJwt, changepassword);
 router.patch('/admin/update-user/:id', checkJwt, requireAdmin, updateuser);
 router.patch(
 	'/admin/update-facilitator/:id',
@@ -72,6 +70,7 @@ router.patch(
 // DELETE
 router.delete('/admin/delete-user/:id', checkJwt, requireAdmin, deleteuser);
 router.delete('/admin/delete-all-users', checkJwt, requireAdmin, deletealluser);
+
 
 // END USERS
 

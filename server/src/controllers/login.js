@@ -1,11 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const User = require('../models/user');
 const cookieParser = require('cookie-parser');
 const jwtDecode = require('jwt-decode');
-
 const app = express();
 
-const { createToken, verifyPassword } = require('../util');
+const { createToken, verifyPassword, hashPassword } = require('../util');
+app.use(cors());
 app.use(cookieParser());
 
 exports.signin = async (req, res) => {
@@ -70,7 +71,8 @@ exports.logout = (req, res) => {
 exports.changepassword = async (req, res) => {
 	try {
 		const { sub } = req.user;
-		const { email, oldpassword, newPassword } = req.body;
+
+		const { email, oldPassword, newPassword } = req.body;
 
 		const user = await User.findOne({
 			email,
@@ -78,28 +80,31 @@ exports.changepassword = async (req, res) => {
 
 		if (!user) {
 			return res.status(400).json({
-				message: 'Wrong email or password.',
+				message: 'No existing account.',
 			});
 		}
 
-		if (oldpassword === newPassword) {
-			return res
-				.status(400)
-				.json({
-					message: 'New password must not be the same as old password.',
-				});
+		const passwordValid = await verifyPassword(oldPassword, user.password);
+		if (!passwordValid) {
+			return res.status(400).json({
+				message: 'Password is not match.',
+			});
 		}
 
-		const passwordValid = await verifyPassword(oldpassword, user.password);
+		if (oldPassword === newPassword) {
+			return res.status(400).json({
+				message: 'New password must not be the same as old password.',
+			});
+		}
 
 		if (passwordValid) {
 			const passed = await hashPassword(newPassword);
 			await User.findByIdAndUpdate(sub, { password: passed });
-		}
 
-		return res.status(200).json({
-			message: 'Password changed successfully',
-		});
+			return res.status(200).json({
+				message: 'Password changed successfully',
+			});
+		}
 	} catch (error) {
 		console.log(error);
 		return res.status(400).json({

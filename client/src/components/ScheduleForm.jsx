@@ -99,8 +99,8 @@ const ScheduleForm = ({ schedules }) => {
 		} catch (error) {
 			setLoading(false);
 			setError(error?.response?.message);
+			setFailed(true);
 			setSuccess('');
-			setOpen(true);
 		}
 	};
 
@@ -122,8 +122,8 @@ const ScheduleForm = ({ schedules }) => {
 			setLoading(false);
 			const { data } = error.response;
 			setError(data.message);
+			setFailed(true);
 			setSuccess('');
-			setOpen(true);
 		}
 	};
 

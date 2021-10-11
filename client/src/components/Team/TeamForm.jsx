@@ -44,8 +44,8 @@ const TeamForm = ({ game, team }) => {
 			setLoading(false);
 			const { data } = error.response;
 			setErrorMessage(data.message);
+			setFailed(true);
 			setSuccessMessage('');
-			setOpen(true);
 		}
 	};
 

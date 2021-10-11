@@ -3,7 +3,11 @@ import { makeStyles } from '@material-ui/core';
 export default makeStyles((theme) => ({
 	root: {
 		position: 'relative',
-		maxHeight: 400,
-		minHeight: 400,
+	},
+	full__slider: {
+		position: 'relative',
+	},
+	textCapital: {
+		textTransform: 'capitalize',
 	},
 }));

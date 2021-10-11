@@ -27,7 +27,7 @@ const HeaderCarousel = () => {
 						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
-									variant="h2"
+									variant="h3"
 									component="h6"
 									className={clsx(classes.typoWhite, classes.textBold)}
 								>
@@ -44,7 +44,7 @@ const HeaderCarousel = () => {
 						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
-									variant="h2"
+									variant="h3"
 									component="h6"
 									className={clsx(classes.typoWhite, classes.textBold)}
 								>
@@ -61,7 +61,7 @@ const HeaderCarousel = () => {
 						<Grid container justifyContent="flex-end" alignItems="center">
 							<Grid item md={5}>
 								<Typography
-									variant="h2"
+									variant="h3"
 									component="h6"
 									className={clsx(classes.typoWhite, classes.textBold)}
 								>

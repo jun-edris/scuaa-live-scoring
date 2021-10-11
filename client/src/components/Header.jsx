@@ -40,10 +40,6 @@ const navItems = [
 		label: 'Contact',
 		path: 'contact',
 	},
-	{
-		label: 'Settings',
-		path: 'settings',
-	},
 ];
 
 const NavItem = ({ navItem }) => {
@@ -63,6 +59,7 @@ const Header = () => {
 	const authContext = useContext(AuthContext);
 	const fetchContext = useContext(FetchContext);
 
+	const isSettings = location.pathname === `/settings`;
 	const handleLogOut = async () => {
 		try {
 			await fetchContext.authAxios.get('/logout');
@@ -250,6 +247,45 @@ const Header = () => {
 												</ListItem>
 											);
 										})}
+										{(authContext.authState.userInfo.role === 'facilitator' ||
+											authContext.authState.userInfo.role === 'admin') && (
+											<ListItem
+												button
+												className={clsx(classes.link__container)}
+												disableGutters={true}
+												dense
+											>
+												<Link
+													to="/dashboard"
+													className={clsx(classes.link__container)}
+												>
+													<ListItemText
+														primary={
+															<Typography align="center">Dashboard</Typography>
+														}
+													/>
+												</Link>
+											</ListItem>
+										)}
+										{authContext.authState.userInfo.role === 'student' && (
+											<ListItem
+												button
+												className={clsx(
+													classes.link__container,
+													isSettings									 && classes.inRoute
+												)}
+												disableGutters={true}
+												dense
+											>
+												<Link to="/settings" className={clsx(classes.links)}>
+													<ListItemText
+														primary={
+															<Typography align="center">Settings</Typography>
+														}
+													/>
+												</Link>
+											</ListItem>
+										)}
 										<ListItem
 											disableGutters={true}
 											dense

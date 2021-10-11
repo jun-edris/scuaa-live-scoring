@@ -52,8 +52,8 @@ const Facilitator = ({ user }) => {
 			setLoading(false);
 			const { data } = error.response;
 			setError(data.message);
+			setFailed(true);
 			setSuccess('');
-			setOpen(true);
 		}
 	};
 

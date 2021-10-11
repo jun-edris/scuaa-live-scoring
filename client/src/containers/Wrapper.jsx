@@ -81,9 +81,9 @@ const Wrapper = ({ children, window }) => {
 									<Grid item>
 										<Grid container direction="column" alignItems="flex-end">
 											<Typography className={classes.user} variant="body1">
-												{authContext.authState.userInfo.firstName}
+												{`${authContext.authState.userInfo.firstName} ${authContext.authState.userInfo.lastName}`}
 											</Typography>
-											<Typography variant="caption" color="secondary">
+											<Typography variant="caption" className={classes.role}>
 												{authContext.authState.userInfo.role}
 											</Typography>
 										</Grid>
@@ -94,7 +94,6 @@ const Wrapper = ({ children, window }) => {
 											aria-controls="menu-appbar"
 											aria-haspopup="true"
 											onClick={handleMenu}
-											color="secondary"
 										>
 											<AccountCircle />
 										</IconButton>

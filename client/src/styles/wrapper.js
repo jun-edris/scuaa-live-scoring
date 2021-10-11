@@ -32,4 +32,7 @@ export default makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
+	role: {
+		textTransform: 'capitalize',
+	},
 }));

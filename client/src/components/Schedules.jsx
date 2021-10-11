@@ -16,7 +16,7 @@ const Schedules = ({ schedules, change }) => {
 
 	return (
 		<>
-			<TableContainer>
+			<TableContainer style={{ maxHeight: 400, minHeight: 400 }}>
 				<Table aria-label="Teams table">
 					<TableHead>
 						<TableRow>

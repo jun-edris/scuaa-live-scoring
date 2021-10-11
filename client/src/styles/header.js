@@ -100,8 +100,7 @@ export default makeStyles((theme) => ({
 		height: '100%',
 		padding: 0,
 		margin: 0,
-		display: 'flex',
-		flexDirection: 'row',
+
 		color: '#fff',
 	},
 	inRouteLink: {

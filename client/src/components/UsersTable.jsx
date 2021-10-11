@@ -18,9 +18,9 @@ import CreateIcon from '@material-ui/icons/Create';
 import { FetchContext } from '../context/FetchContext';
 
 const headCells = [
-	{ id: 'fullName', label: 'Name' },
+	{ id: 'lastName', label: 'Name' },
 	{ id: 'email', label: 'Email' },
-	{ id: 'role', label: 'Role' },
+	{ id: 'role', label: 'Role', disableSorting: true },
 	{ id: 'gameEvent', label: 'Sports Event', disableSorting: true },
 	{ id: 'buttons', label: '', disableSorting: true },
 ];

@@ -56,5 +56,5 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://localhost:3001/"
+	"proxy": "https://scuaa-live-scoring-server.herokuapp.com/"
 }
