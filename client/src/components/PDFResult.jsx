@@ -7,7 +7,7 @@ import PDFTable from './PDFTable';
 const styles = StyleSheet.create({
 	page: {
 		backgroundColor: '#ffffff',
-		marginTop: 30,
+		padding: 30,
 	},
 	headingText: {
 		fontSize: 14,
@@ -18,80 +18,48 @@ const styles = StyleSheet.create({
 	},
 	textBody: {
 		marginTop: 50,
-		marginLeft: 30,
 		fontSize: 12,
 	},
 	header: {
 		marginTop: 5,
 		marginRight: 20,
-		marginLeft: 30,
+
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
 	spaces: {
-		marginTop: 60,
+		marginTop: 20,
 	},
-	teamName: {
-		marginLeft: 30,
+	footer: {
+		marginTop: 20,
+		marginBottom: 30,
 	},
-	tableContainer: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		marginTop: 5,
-		borderWidth: 1,
-		borderColor: '#000',
-		marginRight: 20,
-		marginLeft: 30,
+	footerHeadingText: {
+		marginBottom: 15,
+		fontSize: 12,
 	},
-	tableHeader: {
-		flexDirection: 'row',
-		borderBottomColor: '#bff0fd',
-		backgroundColor: '#bff0fd',
-		borderBottomWidth: 1,
-		alignItems: 'center',
-		height: 24,
+	footerText: {
 		textAlign: 'center',
-		fontStyle: 'bold',
-		flexGrow: 1,
+		fontSize: 12,
 	},
-	tableBody: {
+	signatureContainer: {
+		marginTop: 15,
+		display: 'flex',
 		flexDirection: 'row',
-		flexWrap: 'wrap',
-		borderBottomColor: '#bff0fd',
-		borderBottomWidth: 1,
+		justifyContent: 'space-around',
 		alignItems: 'center',
-		height: 24,
-		textAlign: 'center',
-		fontStyle: 'bold',
-		flexGrow: 1,
+		flexWrap: 'wrap',
 	},
-	jerseyNumber: {
-		width: '20%',
-		borderRightColor: '#000',
-		borderRightWidth: 1,
-		fontSize: 11,
-	},
-	name: {
-		width: '40%',
-		borderRightColor: '#000',
-		borderRightWidth: 1,
-		fontSize: 11,
-	},
-	score: {
-		width: '20%',
-		fontSize: 11,
-		borderRightColor: '#000',
-		borderRightWidth: 1,
-	},
-	fouls: {
-		width: '20%',
-		fontSize: 11,
+	signature: {
+		borderTopWidth: 1,
+		borderTopColor: '#000',
+		width: 150,
 	},
 });
 
-const PDFResult = ({ data }) => {
+const PDFResult = ({ data, setM }) => {
 	let dateOfTheMatch = new Date(data.date);
 	let month = monthNames[dateOfTheMatch.getMonth()];
 	let day = dateOfTheMatch.getDate();
@@ -99,7 +67,7 @@ const PDFResult = ({ data }) => {
 
 	return (
 		<Document>
-			<Page style={styles.page} size="LETTER">
+			<Page style={styles.page} size="LEGAL" orientation="landscape">
 				<View style={styles.header}>
 					<Text style={styles.headerText}>Facilitator: {data.userName}</Text>
 					<Text style={styles.headerText}>
@@ -114,17 +82,64 @@ const PDFResult = ({ data }) => {
 				</View>
 				{/* <View style={styles.spaces}></View> */}
 				<View>
-					<Text style={styles.textBody}>
+					<Text style={styles.textBody} break>
 						{`${data?.teamOne?.teamName} Scoresheet`}
 					</Text>
+					{/* <Text style={styles.textBody}>{JSON.stringify(setM)}</Text> */}
 				</View>
-				<PDFTable team={data.teamOne} gameEvent={data.gameEvent} />
+				{setM && data?.gameEvent === 'volleyball' ? (
+					<>
+						{setM?.sets?.map((set, index) => (
+							<PDFTable
+								set={set}
+								team={set.teamOne}
+								gameEvent={data.gameEvent}
+							/>
+						))}
+					</>
+				) : (
+					<PDFTable team={data.teamOne} gameEvent={data.gameEvent} />
+				)}
 				<View>
-					<Text style={styles.textBody}>
+					<Text style={styles.textBody} break>
 						{`${data?.teamTwo?.teamName} Scoresheet`}
 					</Text>
 				</View>
-				<PDFTable team={data.teamTwo} gameEvent={data.gameEvent} />
+				{setM && data?.gameEvent === 'volleyball' ? (
+					<>
+						{setM?.sets?.map((set, index) => (
+							<PDFTable
+								set={set}
+								team={set.teamTwo}
+								gameEvent={data.gameEvent}
+							/>
+						))}
+					</>
+				) : (
+					<PDFTable team={data.teamTwo} gameEvent={data.gameEvent} />
+				)}
+
+				<View style={styles.spaces}></View>
+				<View style={styles.footer}>
+					<Text style={styles.footerHeadingText}>Verified: </Text>
+					<View style={styles.signatureContainer}>
+						<View style={styles.signature}>
+							<Text style={styles.footerText}>
+								{data?.teamOne?.teamName} Coach
+							</Text>
+						</View>
+						<View style={styles.signature}>
+							<Text style={styles.footerText}>
+								{data?.teamTwo?.teamName} Coach
+							</Text>
+						</View>
+					</View>
+					<View style={styles.signatureContainer}>
+						<View style={styles.signature}>
+							<Text style={styles.footerText}>SCUAA Coordinator</Text>
+						</View>
+					</View>
+				</View>
 			</Page>
 		</Document>
 	);

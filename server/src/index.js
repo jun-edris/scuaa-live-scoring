@@ -13,7 +13,6 @@ const facilitatorRoute = require('./routes/facilitator');
 const app = express();
 
 const port = process.env.PORT || 3001;
-// const port = 3001;
 
 // use
 app.use(cors());

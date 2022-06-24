@@ -95,7 +95,9 @@ const FeedContent = ({ live }) => {
 													variant={width < 600 ? 'h4' : 'h2'}
 													component="h6"
 												>
-													{teamOneScore}
+													{live?.gameEvent !== 'volleyball'
+														? teamOneScore
+														: live?.teamOne?.wonSets}
 												</Typography>
 											</Grid>
 											<Grid item>
@@ -111,7 +113,9 @@ const FeedContent = ({ live }) => {
 													variant={width < 600 ? 'h4' : 'h2'}
 													component="h6"
 												>
-													{teamTwoScore}
+													{live?.gameEvent !== 'volleyball'
+														? teamTwoScore
+														: live?.teamTwo?.wonSets}
 												</Typography>
 											</Grid>
 										</Grid>
@@ -134,7 +138,7 @@ const FeedContent = ({ live }) => {
 													variant={width < 600 ? 'subtitle1' : 'h6'}
 													component="h6"
 												>
-													{live.teamTwo.teamName}
+													{live?.teamTwo?.teamName}
 												</Typography>
 											</Grid>
 										</Grid>

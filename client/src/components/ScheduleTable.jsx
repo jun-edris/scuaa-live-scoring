@@ -34,6 +34,7 @@ const headCells = [
 ];
 
 const ScheduleTable = ({ records }) => {
+	// const [live, setLive] = useState('');
 	const history = useHistory();
 	const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
 	const [openDeletePopup, setOpenDeletePopup] = useState(false);
@@ -51,6 +52,7 @@ const ScheduleTable = ({ records }) => {
 		},
 	});
 
+	const dateNow = Date.now();
 	const { TblContainer, TblHead, recordsAfterPagingAndSorting, TblPagination } =
 		useTable(records, headCells, filterFn);
 
@@ -97,10 +99,28 @@ const ScheduleTable = ({ records }) => {
 				`facilitator/live-match/`,
 				liveMatch
 			);
-
-			return history.push(`/scoreboard/${data.newLiveMatch._id}`);
+			// setLive(data.newLiveMatch._id);
+			createSet(data.newLiveMatch._id);
+			updateLive(data.newLiveMatch._id);
 		} catch (err) {
 			return console.log(err.response.message);
+		}
+	};
+	const createSet = async (live) => {
+		try {
+			await fetchContext.authAxios.post(`facilitator/set-match/${live}`);
+		} catch (err) {
+			setFailed(err.response.data.message);
+			setOpen(true);
+		}
+	};
+	const updateLive = async (live) => {
+		try {
+			await fetchContext.authAxios.patch(`facilitator/update-match/${live}`);
+			return history.push(`/scoreboard/${live}`);
+		} catch (err) {
+			setFailed(err.response.data.message);
+			setOpen(true);
 		}
 	};
 
@@ -164,14 +184,14 @@ const ScheduleTable = ({ records }) => {
 													spacing={2}
 												>
 													<Grid item>
-														{item.teamOne.image && (
+														{item?.teamOne?.image && (
 															<Avatar
 																alt="Team Logo"
 																src={`/images/${item.teamOne.image}`}
 															/>
 														)}
 													</Grid>
-													<Grid item>{item.teamOne.teamName}</Grid>
+													<Grid item>{item?.teamOne?.teamName}</Grid>
 												</Grid>
 											</Grid>
 											<Grid item>
@@ -185,14 +205,14 @@ const ScheduleTable = ({ records }) => {
 													spacing={2}
 												>
 													<Grid item>
-														{item.teamTwo.image && (
+														{item?.teamTwo?.image && (
 															<Avatar
 																alt="Team Logo"
 																src={`/images/${item.teamTwo.image}`}
 															/>
 														)}
 													</Grid>
-													<Grid item>{item.teamTwo.teamName}</Grid>
+													<Grid item>{item?.teamTwo?.teamName}</Grid>
 												</Grid>
 											</Grid>
 										</Grid>
@@ -204,7 +224,7 @@ const ScheduleTable = ({ records }) => {
 										<Typography>{`${formatAMPM(dateOfTheMatch)}`}</Typography>
 									</TableCell>
 									<TableCell>
-										<Typography>{item.gameEvent}</Typography>
+										<Typography>{item?.gameEvent}</Typography>
 									</TableCell>
 									<TableCell>
 										<Grid container justifyContent="center" direction="column">
@@ -233,6 +253,7 @@ const ScheduleTable = ({ records }) => {
 												</Tooltip>
 											</Grid>
 											<Grid item>
+												{/* <>{item?.date - }</> */}
 												{item.isStarted === true ? (
 													<CustomButton
 														variant="contained"
@@ -245,9 +266,17 @@ const ScheduleTable = ({ records }) => {
 												) : (
 													<CustomButton
 														variant="contained"
+														// disabled={
+														// 	Date.parse(new Date(dateNow)) -
+														// 	Date.parse(item?.date) >= 0 ? true : false
+														// }
 														onClick={() => {
 															startMatch(item);
 															onStartMatch(item);
+															// console.log();
+															// // console.log(new Date(item?.date));
+															// console.log(Date.parse(item?.date));
+															// createSet();
 														}}
 														color="primary"
 														title="Start Match"

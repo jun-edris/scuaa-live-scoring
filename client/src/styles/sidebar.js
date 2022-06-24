@@ -29,10 +29,10 @@ export default makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 	notInRouteLink: {
-		color: '#fff',
 		'&:hover': {
 			background: '#d8302f',
 			border: 0,
+			color: '#fff',
 		},
 	},
 	inRouteLink: {
@@ -41,7 +41,6 @@ export default makeStyles((theme) => ({
 		margin: 0,
 		display: 'flex',
 		flexDirection: 'row',
-		color: '#fff',
 		width: '100%',
 		height: '100%',
 	},

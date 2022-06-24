@@ -45,6 +45,46 @@ const liveSchema = new mongoose.Schema(
 						default: 0,
 						trim: true,
 					},
+					rebounds: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					steal: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					block: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					assists: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					spike: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					digs: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					saveBall: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					ace: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
 					fouls: {
 						type: Number,
 						default: 0,
@@ -71,6 +111,10 @@ const liveSchema = new mongoose.Schema(
 			],
 			image: {
 				type: String,
+			},
+			wonSets: {
+				type: Number,
+				default: 0,
 			},
 		},
 		teamTwo: {
@@ -101,6 +145,46 @@ const liveSchema = new mongoose.Schema(
 						default: 0,
 						trim: true,
 					},
+					rebounds: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					steal: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					block: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					assists: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					spike: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					digs: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					saveBall: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
+					ace: {
+						type: Number,
+						default: 0,
+						trim: true,
+					},
 					fouls: {
 						type: Number,
 						default: 0,
@@ -128,6 +212,10 @@ const liveSchema = new mongoose.Schema(
 			image: {
 				type: String,
 			},
+			wonSets: {
+				type: Number,
+				default: 0,
+			},
 		},
 		gameEvent: {
 			type: String,
@@ -152,6 +240,26 @@ const liveSchema = new mongoose.Schema(
 		userName: {
 			type: String,
 			trim: true,
+		},
+		setName: {
+			type: String,
+		},
+		sets: {
+			type: mongoose.Types.ObjectId,
+			ref: 'match-sets',
+		},
+		numSets: {
+			type: Number,
+		},
+		fbLink: {
+			type: String,
+		},
+		startTime: {
+			type: Boolean,
+			default: false,
+		},
+		timeGiven: {
+			type: Number,
 		},
 	},
 	{ timestamps: true }

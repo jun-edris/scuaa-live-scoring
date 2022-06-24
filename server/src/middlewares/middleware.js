@@ -53,7 +53,7 @@ exports.requireStudent = (req, res, next) => {
 			message: 'There was a problem authorizing the request',
 		});
 	}
-	if (req.user.role !== 'facilitator') {
+	if (req.user.role !== 'student') {
 		return res.status(401).json({ message: 'Insufficient role' });
 	}
 	next();

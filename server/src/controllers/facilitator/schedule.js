@@ -49,10 +49,21 @@ exports.getallschedulebyuser = async (req, res) => {
 	}
 };
 
+exports.getScheduleByMatch = async (req, res) => {
+	try {
+		const live = await Schedule.findById(req.params.id);
+		res.status(200).json(live);
+	} catch (error) {
+		res.status(400).json({
+			message: error,
+		});
+	}
+};
+
 exports.createschedule = async (req, res) => {
 	try {
-		const { sub, gameEvent } = req.user;
-		const { date, teamOne, teamTwo } = req.body;
+		const { gameEvent, sub } = req.user;
+		const { date, teamOne, teamTwo, sets } = req.body;
 
 		const dataFirstTeam = await Team.findById({
 			_id: mongoose.Types.ObjectId(teamOne),
@@ -81,6 +92,7 @@ exports.createschedule = async (req, res) => {
 			date,
 			teamOne: dataFirstTeam,
 			teamTwo: dataSecondTeam,
+			set: sets,
 		};
 
 		const schedule = Object.assign({}, scheduleData, {
@@ -104,7 +116,7 @@ exports.createschedule = async (req, res) => {
 
 exports.updateschedule = async (req, res) => {
 	try {
-		const { date, teamOne, teamTwo } = req.body;
+		const { date, teamOne, teamTwo, sets } = req.body;
 
 		if (teamOne === teamTwo) {
 			return res.status(400).json({
@@ -125,6 +137,7 @@ exports.updateschedule = async (req, res) => {
 				date: date,
 				teamOne: dataFirstTeam,
 				teamTwo: dataSecondTeam,
+				set: sets,
 			},
 			{ new: true }
 		);

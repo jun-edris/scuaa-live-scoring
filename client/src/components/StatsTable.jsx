@@ -22,7 +22,20 @@ const StatsTable = ({ gameEvent, players }) => {
 								<TableCell align="center">Scores</TableCell>
 								{gameEvent === 'basketball' && (
 									<>
+										<TableCell align="center">Assists</TableCell>
+										<TableCell align="center">Rebound</TableCell>
+										<TableCell align="center">Steal</TableCell>
+										<TableCell align="center">Block</TableCell>
 										<TableCell align="center">Fouls</TableCell>
+									</>
+								)}
+								{gameEvent === 'volleyball' && (
+									<>
+										<TableCell align="center">Ace</TableCell>
+										<TableCell align="center">Spike</TableCell>
+										<TableCell align="center">Digs</TableCell>
+										<TableCell align="center">Save Ball</TableCell>
+										<TableCell align="center">Block</TableCell>
 									</>
 								)}
 								{gameEvent === 'soccer' && (
@@ -41,7 +54,22 @@ const StatsTable = ({ gameEvent, players }) => {
 									<TableCell align="center">{player?.scores}</TableCell>
 									{gameEvent === 'basketball' && (
 										<>
+											<TableCell align="center">{player?.assists}</TableCell>
+											<TableCell align="center">{player?.rebounds}</TableCell>
+											<TableCell align="center">{player?.steal}</TableCell>
+											<TableCell align="center">{player?.block}</TableCell>
 											<TableCell align="center">{player?.fouls}</TableCell>
+										</>
+									)}
+									{gameEvent === 'volleyball' && (
+										<>
+											<TableCell align="center">
+												{player?.ace ? player?.ace : 0}
+											</TableCell>
+											<TableCell align="center">{player?.spike}</TableCell>
+											<TableCell align="center">{player?.digs}</TableCell>
+											<TableCell align="center">{player?.saveBall}</TableCell>
+											<TableCell align="center">{player?.block}</TableCell>
 										</>
 									)}
 									{gameEvent === 'soccer' && (

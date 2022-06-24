@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const scheduleSchema = new mongoose.Schema(
 	{
 		user: {
@@ -43,6 +44,16 @@ const scheduleSchema = new mongoose.Schema(
 					fouls: {
 						type: Number,
 						trim: true,
+					},
+					card: {
+						yellow: {
+							type: Number,
+							trim: true,
+						},
+						red: {
+							type: Number,
+							trim: true,
+						},
 					},
 				},
 			],
@@ -111,6 +122,11 @@ const scheduleSchema = new mongoose.Schema(
 		gameEvent: {
 			type: String,
 			required: true,
+		},
+		set: {
+			type: Number,
+			required: false,
+			enum: [3, 5],
 		},
 		isDone: {
 			type: Boolean,

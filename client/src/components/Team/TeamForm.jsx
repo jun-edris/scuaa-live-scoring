@@ -1,4 +1,8 @@
-import { teamSchema } from './../../schema/team';
+import {
+	basketballTeamSchema,
+	volleyballTeamSchema,
+	soccerTeamSchema,
+} from './../../schema/team';
 import {
 	Grid,
 	Typography,
@@ -68,7 +72,7 @@ const TeamForm = ({ game, team }) => {
 			const { data } = error.response;
 			setErrorMessage(data.message);
 			setSuccessMessage('');
-			setOpen(true);
+			setFailed(true);
 		}
 	};
 
@@ -94,7 +98,13 @@ const TeamForm = ({ game, team }) => {
 					players: team ? team.players : [{ name: '', jerseyNumber: '' }],
 					gameEvent: game,
 				}}
-				validationSchema={teamSchema}
+				validationSchema={
+					game === 'basketball'
+						? basketballTeamSchema
+						: game === 'volleyball'
+						? volleyballTeamSchema
+						: soccerTeamSchema
+				}
 				onSubmit={(values, { resetForm }) => {
 					if (team) {
 						updateCredentials(values, resetForm);
@@ -149,7 +159,7 @@ const TeamForm = ({ game, team }) => {
 																		type="button"
 																		color="secondary"
 																		onClick={() =>
-																			remove({ name: '', jerseyNumber: '' })
+																			remove(index)
 																		}
 																	>
 																		<HighlightOffIcon color="error" />

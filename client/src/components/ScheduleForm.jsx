@@ -67,6 +67,7 @@ const TeamSelection = ({ name, ...props }) => {
 		</>
 	);
 };
+
 const ScheduleForm = ({ schedules }) => {
 	const classes = useStyles();
 	const fetchContext = useContext(FetchContext);
@@ -160,6 +161,7 @@ const ScheduleForm = ({ schedules }) => {
 			)}
 			<Formik
 				initialValues={{
+					sets: schedules ? schedules.set : '',
 					date: schedules ? schedules.date : new Date(),
 					teamOne: schedules ? schedules.teamOne._id : '',
 					teamTwo: schedules ? schedules.teamTwo._id : '',
@@ -177,6 +179,17 @@ const ScheduleForm = ({ schedules }) => {
 					return (
 						<Form>
 							<Grid container direction="column" alignItems="stretch">
+								{authContext.authState.userInfo.gameEvent === 'volleyball' && (
+									<Grid item xs={12}>
+										<FormControl className={classes.formControl}>
+											<InputLabel id="demo-simple-select-label">Set</InputLabel>
+											<TeamSelection name="sets">
+												<MenuItem value={3}>3</MenuItem>
+												<MenuItem value={5}>5</MenuItem>
+											</TeamSelection>
+										</FormControl>
+									</Grid>
+								)}
 								<Grid item xs={12}>
 									<Box mb={4}>
 										<Field

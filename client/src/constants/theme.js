@@ -3,16 +3,17 @@ import { createTheme } from '@material-ui/core/styles';
 export const customTheme = createTheme({
 	// mao ni latest
 	palette: {
-		type: 'dark',
+		type: 'light',
 		primary: {
-			main: '#179BE8',
+			main: '#0140a4',
+			contrastText: 'rgba(255,255,255,0.87)',
 		},
 		secondary: {
-			main: '#E86417',
+			main: '#ff8000',
 		},
 		background: {
-			default: '#0A1929',
-			paper: '#001E3C',
+			default: '#e8e8e8',
+			paper: '#fff',
 		},
 	},
 	typography: {

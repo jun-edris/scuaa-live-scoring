@@ -166,7 +166,6 @@ const Header = () => {
 										style={{
 											backgroundColor: '#d8302f',
 											padding: '9px 25px',
-											color: '#fff',
 											fontSize: '13px',
 											borderRadius: '50px',
 										}}
@@ -272,7 +271,7 @@ const Header = () => {
 												button
 												className={clsx(
 													classes.link__container,
-													isSettings									 && classes.inRoute
+													isSettings && classes.inRoute
 												)}
 												disableGutters={true}
 												dense
@@ -347,8 +346,8 @@ const Header = () => {
 												style={{
 													backgroundColor: '#d8302f',
 													padding: '9px 25px',
-													color: '#fff',
 													fontSize: '13px',
+													color: '#fff',
 												}}
 												onClick={handleLogOut}
 												variant="contained"

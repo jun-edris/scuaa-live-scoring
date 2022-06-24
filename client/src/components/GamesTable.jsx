@@ -14,6 +14,7 @@ import useTable from '../hooks/useTable';
 import { formatAMPM } from '../mappers/formatTime';
 import PDFResult from './PDFResult';
 import TableHeader from './TableHeader';
+import { useHistory } from 'react-router-dom';
 
 const headCells = [
 	{ id: 'teams', label: 'Teams' },
@@ -24,6 +25,7 @@ const headCells = [
 ];
 
 const GamesTable = ({ records }) => {
+	const history = useHistory();
 	const [filterFn, setFilterFn] = useState({
 		fn: (items) => {
 			return items;
@@ -64,7 +66,6 @@ const GamesTable = ({ records }) => {
 							let month = monthNames[dateOfTheMatch.getMonth()];
 							let day = dateOfTheMatch.getDate();
 							let year = dateOfTheMatch.getFullYear();
-
 							return (
 								<TableRow key={index}>
 									<TableCell align="center">
@@ -120,17 +121,12 @@ const GamesTable = ({ records }) => {
 										<Typography>{item.gameEvent}</Typography>
 									</TableCell>
 									<TableCell>
-										<Button variant="contained" color="primary">
-											<PDFDownloadLink
-												document={<PDFResult data={item} />}
-												fileName={`${item.teamOne?.teamName}_vs_${item.teamTwo?.teamName}-${month}-${day}-${year}.pdf`}
-											>
-												{({ blob, url, loading, error }) =>
-													loading
-														? 'Loading document...'
-														: 'Download PDF Result!'
-												}
-											</PDFDownloadLink>
+										<Button
+											variant="contained"
+											color="primary"
+											onClick={() => history.push(`/stats/${item._id}`)}
+										>
+											Stats
 										</Button>
 									</TableCell>
 								</TableRow>

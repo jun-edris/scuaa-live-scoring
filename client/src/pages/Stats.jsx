@@ -13,9 +13,11 @@ import {
 	Tab,
 	Tabs,
 	Typography,
+	ButtonGroup,
 } from '@material-ui/core';
 import { FetchContext } from '../context/FetchContext';
 import StatsTable from '../components/StatsTable';
+import StatsVolleyballTable from '../components/StatsVolleyballTable';
 import PDFResult from '../components/PDFResult';
 import { monthNames } from '../constants/month';
 import { AuthContext } from '../context/AuthContext';
@@ -38,6 +40,8 @@ const Stats = () => {
 	const [tab, setTabs] = useState(0);
 	let { matchId } = useParams();
 	const [live, setLive] = useState({});
+	const [set, setSet] = useState({});
+	const [sets, setSets] = useState([]);
 	const fetchContext = useContext(FetchContext);
 	const authContext = useContext(AuthContext);
 
@@ -52,14 +56,45 @@ const Stats = () => {
 			});
 	};
 
+	const getSets = () => {
+		fetchContext.authAxios
+			.get(`/sets/${matchId}`)
+			.then(({ data }) => {
+				setSets(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	const getSet = (setNum) => {
+		fetchContext.authAxios
+			.get(`/set/${matchId}`, { params: { setNum: setNum } })
+			.then(({ data }) => {
+				const toObject = Object.assign({}, data.sets);
+				setSet(toObject[0]);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	useEffect(() => {
 		getLive();
+		getSet(1);
+		getSets();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchContext.refreshKey]);
 
-	let teamOnePlayers = live?.teamOne?.players;
-	let teamTwoPlayers = live?.teamTwo?.players;
+	let teamOnePlayers =
+		live?.gameEvent !== 'volleyball'
+			? live?.teamOne?.players
+			: set?.teamOne?.players;
+	let teamTwoPlayers =
+		live?.gameEvent !== 'volleyball'
+			? live?.teamTwo?.players
+			: set?.teamTwo?.players;
+	// let teamTwoPlayers = live?.teamTwo?.players;
 
 	let teamOneScore = teamOnePlayers?.reduce(
 		(prev, curr) => prev + curr.scores,
@@ -91,7 +126,7 @@ const Stats = () => {
 					<Container>
 						<Button variant="contained" color="primary">
 							<PDFDownloadLink
-								document={<PDFResult data={live} />}
+								document={<PDFResult data={live} setM={sets} />}
 								fileName={`${live.teamOne?.teamName}_vs_${live.teamTwo?.teamName}-${month}-${day}-${year}.pdf`}
 							>
 								{({ blob, url, loading, error }) =>
@@ -156,7 +191,9 @@ const Stats = () => {
 											variant="h3"
 											component="span"
 										>
-											{teamOneScore}
+											{live?.gameEvent !== 'volleyball'
+												? teamOneScore
+												: live?.teamOne?.wonSets}
 										</Typography>
 									</Grid>
 								</Grid>
@@ -169,7 +206,9 @@ const Stats = () => {
 											variant="h3"
 											component="span"
 										>
-											{teamTwoScore}
+											{live?.gameEvent !== 'volleyball'
+												? teamTwoScore
+												: live?.teamTwo?.wonSets}
 										</Typography>
 									</Grid>
 									<Grid item>
@@ -187,7 +226,7 @@ const Stats = () => {
 											</Grid>
 											<Grid item className={classes.textColor}>
 												<Typography variant="h6">
-													{live.teamOne?.teamName}
+													{live.teamTwo?.teamName}
 												</Typography>
 											</Grid>
 										</Grid>
@@ -204,7 +243,23 @@ const Stats = () => {
 					direction="column"
 					justifyContent="center"
 					alignItems="center"
+					spacing={2}
 				>
+					{live?.gameEvent === 'volleyball' && (
+						<Grid item>
+							<ButtonGroup
+								color="secondary"
+								variant="contained"
+								aria-label="contained primary button group"
+							>
+								{sets?.sets?.map((set, index) => (
+									<Button onClick={() => getSet(index + 1)}>
+										Set {index + 1}
+									</Button>
+								))}
+							</ButtonGroup>
+						</Grid>
+					)}
 					<Grid item>
 						<Paper>
 							<Tabs
@@ -217,6 +272,11 @@ const Stats = () => {
 								<Tab label={live?.teamTwo?.teamName} />
 							</Tabs>
 						</Paper>
+					</Grid>
+					<Grid item>
+						<Typography variant="h6" component="span">
+							Set {set?.no}
+						</Typography>
 					</Grid>
 				</Grid>
 				<Container>

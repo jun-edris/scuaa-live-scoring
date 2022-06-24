@@ -10,20 +10,20 @@ const DashboardAdminContent = () => {
 			<Grid container direction="column" spacing={4}>
 				<Grid item>
 					<Grid container direction="row" spacing={2}>
-						<Grid item sm={6}>
+						<Grid item xs={12} sm={6}>
 							<FacilitatorContainer />
 						</Grid>
-						<Grid item sm={6}>
+						<Grid item xs={12} sm={6}>
 							<TeamContainer />
 						</Grid>
 					</Grid>
 				</Grid>
 				<Grid item>
 					<Grid container direction="row" spacing={2}>
-						<Grid item sm={6}>
+						<Grid item xs={12} sm={6}>
 							<ScheduleContainer />
 						</Grid>
-						<Grid item sm={6}>
+						<Grid item xs={12} sm={6}>
 							<LiveContainer />
 						</Grid>
 					</Grid>

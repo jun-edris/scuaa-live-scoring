@@ -72,7 +72,6 @@ export default makeStyles((theme) => ({
 	},
 	appBar: {
 		backgroundColor: theme.palette.background.paper,
-		color: 'white',
 	},
 	toolbar: {
 		[theme.breakpoints.down('sm')]: {
@@ -100,11 +99,8 @@ export default makeStyles((theme) => ({
 		height: '100%',
 		padding: 0,
 		margin: 0,
-
-		color: '#fff',
 	},
 	inRouteLink: {
-		color: '#fff',
 		padding: 0,
 		[theme.breakpoints.down('xs')]: {
 			listStyle: 'none',
@@ -117,7 +113,6 @@ export default makeStyles((theme) => ({
 		},
 	},
 	link: {
-		color: '#fff',
 		'&:hover': {
 			color: '#fff',
 			transition: 'all 0.3s ease-in-out 0s',
@@ -126,7 +121,6 @@ export default makeStyles((theme) => ({
 	inRoute: {
 		borderBottom: '3px solid #d8302f',
 		padding: 0,
-		color: '#fff',
 		[theme.breakpoints.down('xs')]: {
 			background: '#d8302f',
 			border: 0,
